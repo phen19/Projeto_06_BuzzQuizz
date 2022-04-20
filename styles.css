@@ -1,0 +1,176 @@
+body {
+    background: #E5E5E5;
+    
+}
+.escondido {
+    display: none;
+}
+
+.tela-2 {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.conteiner-quizzes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.topo-quiz {
+    position: fixed;
+    width: 100%;
+    height: 69px;
+    background: #EC362D;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.topo-quiz > p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 37px;
+    line-height: 43px;
+
+    color: #FFFFFF;
+}
+.titulo-quiz-topo {
+    position: relative;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://sm.ign.com/ign_br/screenshot/default/naruto-shippuden_zy11.jpg");
+    width: 100%;
+    height: 227px;
+}
+.banner-quiz {
+    width: 100%;
+    height: 227px;
+    object-fit: cover;
+}
+.titulo-quiz {
+    
+    position: absolute;
+    top: 130px;
+    left: 500px;
+    z-index: 1;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 39px;
+    line-height: 46px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+.conteudo-quiz {
+    background-color: #E5E5E5;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 42px;
+}
+.titulo-quiz-secundario {
+    background-color: #434CA0;
+    width: 688px;
+    height: 138px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulo-quiz-secundario > p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 23px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+.quiz-imagens {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 759px;
+    
+}
+.quiz-imagens > div {
+    padding: 20px;
+}
+.quiz-imagens > div > img {
+    object-fit: cover;
+    width: 324px;
+    height: 174px;
+    cursor: pointer;
+}
+.quiz-imagens > div > p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+}
+.quiz-imagens > p {
+    width: 324px;
+    height: 174px;
+    padding: 20px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 25px;
+    color: #484848;
+    text-align: center;
+    word-break: break-all;
+}
+.quiz-resultado {
+    background: #EC362D;   
+}
+
+.parte-final {
+    flex-wrap: nowrap;
+}
+.parte-final > div > img {
+    cursor: initial;
+}
+.reiniciar-quiz, .voltar-home  {
+    width: 260px;
+    height: 52px;
+    background: #EC362D;
+    border-radius: 15px;
+    border-width: 0px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    color: #FFF5F4;
+    cursor: pointer;
+        
+
+}
+.voltar-home {
+    background-color: #E5E5E5;
+    color: #818181;
+}
