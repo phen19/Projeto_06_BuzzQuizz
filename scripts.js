@@ -5,7 +5,7 @@ function exibirTela2(){
 }
 
 function buscarTodosQuizzes(){
-    const promessa = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
+    const promessa = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes");
     promessa.then(carregarDados);
 }
 
