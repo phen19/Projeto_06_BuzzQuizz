@@ -101,4 +101,24 @@ function renderizarQuizzes(){
 
 }
 
+function criarQuizzInfo(){
+    conteudo = document.querySelector("body")
+    conteudo.innerHTML = `
+        <div class="topo"> BuzzQuizz</div>
+        <div class="conteudo-info-basicas"> <span><strong>Comece pelo começo</strong></span>
+            <div class="info-basicas"> 
+                <input type="text" class ="titulo" placeholder = "Título do seu quizz">
+                <input type="text" class ="url-imagem" placeholder = "URL da imagem do seu quizz">
+                <input type="text" class ="qtd-perguntas" placeholder = "Quantidade de perguntas do quizz">
+                <input type="text" class ="qtd-niveis" placeholder = "Quantidade de níveis do quizz">
+            </div>
+            <button class="criar-perguntas" onclick = "criarPerguntasQuizz()"> Prosseguir pra criar perguntas
+        </div>
+    `
+}
+
+function criarPerguntasQuizz(){
+    alert("apertou o botao hein")
+}
+
 buscarTodosQuizzes();

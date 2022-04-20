@@ -11,13 +11,13 @@
     </head>
     <body>
         <div class="topo"> BuzzQuizz</div>
-        <div class="seus-quizzes-nenhum desativado">
+        <div class="seus-quizzes-nenhum">
             <div class="container-seus-quizzes-nenhum ">
                 <span>Você não criou nenhum quizz ainda :(</span>
-                <div class="botao-criar-grande">Criar Quizz</div>
+                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
             </div>
         </div>
-            <div class="container-seus-quizzes"> <span>Seus Quizzes</span> <span class="botao-criar-pequeno">+</span>
+            <div class="container-seus-quizzes desativado"> <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span>
                 <div class="seus-quizzes">
                     <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 37.png" alt="SimpsonQuizz">
                         <div class="degrade"></div>
