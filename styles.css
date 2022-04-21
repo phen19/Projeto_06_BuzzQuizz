@@ -248,6 +248,7 @@ body{
 
 .seus-quizzes{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .seus-quizzes > .quizz{
@@ -361,7 +362,7 @@ img{
     
 }
 
-.criar-perguntas{
+.criar{
     margin-top: 85px;
     width: 368px;
     height: 54px;
@@ -371,4 +372,76 @@ img{
     color: #FFF5F4;
     font-size: 21px;
     text-align: center;
+}
+
+/* Criação - Perguntas Quizz */
+
+.conteudo-perguntas-quizz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 70px;
+}
+
+.conteudo-perguntas-quizz > span{
+    font-size: 24px;
+}
+
+.perguntas{
+    margin-top: 27px;
+    width: 600px;
+    height: 825px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 18px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+}
+
+.perguntas > input{
+    width: 564px;
+    height: 46px;
+    box-sizing: border-box;
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    padding-left: 24px;
+}
+
+/* Criação - Níveis Quizz */
+
+.conteudo-niveis-quizz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 70px;
+}
+
+.conteudo-niveis-quizz > span{
+    font-size: 24px;
+}
+
+.niveis{
+    margin-top: 27px;
+    width: 600px;
+    height: 316px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 18px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+}
+
+.niveis > input{
+    width: 564px;
+    height: 46px;
+    box-sizing: border-box;
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    padding-left: 24px;
 }
