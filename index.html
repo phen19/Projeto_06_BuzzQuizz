@@ -11,13 +11,11 @@
     </head>
     <body>
         <div class="topo"> BuzzQuizz</div>
-        <div class="seus-quizzes-nenhum desativado">
-            <div class="container-seus-quizzes-nenhum ">
-                <span>Você não criou nenhum quizz ainda :(</span>
-                <div class="botao-criar-grande">Criar Quizz</div>
-            </div>
+        <div class="seus-quizzes-nenhum">
+            
         </div>
-            <div class="container-seus-quizzes"> <span>Seus Quizzes</span> <span class="botao-criar-pequeno">+</span>
+            <div class="container-seus-quizzes desativado"> 
+                <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span>
                 <div class="seus-quizzes">
                     <div class="quizz" onclick="obterUnicoQuiz(this)" id="1"><img src="./images/Rectangle 37.png" alt="SimpsonQuizz">
                         <div class="degrade"></div>
@@ -32,29 +30,7 @@
         </div>
         <div class="container-todos-quizzes"> <span>Todos os Quizzes</span>
             <div class="lista-quizzes">
-                <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 34.png" alt="SimpsonQuizz">
-                    <div class="degrade"></div>
-                    <div class="titulo-quizz">Acerte os personagens corretos dos Simpsons e prove seu amor! </div>
-                </div>
-                <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 36.png" alt="De boas Quizz">
-                    <div class="degrade"></div>
-                    <div class="titulo-quizz">O quanto você é de boas? </div></div>
-                <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 34.png" alt="SimpsonQuizz">
-                    <div class="degrade"></div>
-                    <div class="titulo-quizz">Acerte os personagens corretos dos Simpsons e prove seu amor! </div>
-                </div>
-                <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 36.png" alt="De boas Quizz">
-                    <div class="degrade"></div>
-                    <div class="titulo-quizz">O quanto você é de boas? </div>
-                </div>
-                <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 34.png" alt="SimpsonQuizz">
-                    <div class="degrade"></div>
-                    <div class="titulo-quizz">Acerte os personagens corretos dos Simpsons e prove seu amor! </div>
-                </div>
-                <div class="quizz" onclick="exibirTela2()"><img src="./images/Rectangle 36.png" alt="De boas Quizz">
-                    <div class="degrade"></div>
-                    <div class="titulo-quizz">O quanto você é de boas? </div>
-                </div>
+            </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="scripts.js"></script>
