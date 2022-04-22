@@ -1,4 +1,5 @@
 let quizzes = [];
+let quiz = [];
 let acertos = 0;
 let listaQuizzes = [];
 let todosQuizzes = [];
@@ -6,7 +7,7 @@ let seusQuizzes = [];
 const seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
 const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
 
-function exibirTela2(){
+function exibirTela2() {
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
@@ -114,11 +115,7 @@ function renderizarQuizzes(){
     
     for ( let i=0; i< todosQuizzes.length;i++){
         conteudo.innerHTML += `
-<<<<<<< HEAD
-        <div class="quizz" id="${quizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${quizzes[i].image} alt="${quizzes[i].id}">
-=======
-        <div class="quizz" onclick="exibirTela2()"><img src=${todosQuizzes[i].image} alt="${todosQuizzes[i].id}">
->>>>>>> d1b750957725ff98d4815b86e9baef129ffa9a56
+        <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image} alt="${todosQuizzes[i].id}">
             <div class="degrade"></div>
             <div class="titulo-quizz">${todosQuizzes[i].title} </div>
         </div>
