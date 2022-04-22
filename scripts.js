@@ -3,11 +3,16 @@ let quiz = [];
 let acertos = 0;
 let listaQuizzes = [];
 let todosQuizzes = [];
-let seusQuizzes = [];
+let seusQuizzes = {};
 const seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
 const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
+let quizzLocal= []
+let contPerguntas = 0;
+let contNiveis =0;
+
 
 function exibirTela2() {
+    console.log(quiz)
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
@@ -26,7 +31,7 @@ function exibirTela2() {
 }
 
 function obterUnicoQuiz(elemento) {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${(elemento.id)}`)
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
     promise.then(carregarDadosQuizUnico) 
 }
 
@@ -115,7 +120,7 @@ function renderizarQuizzes(){
     
     for ( let i=0; i< todosQuizzes.length;i++){
         conteudo.innerHTML += `
-        <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image} alt="${todosQuizzes[i].id}">
+        <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image}>
             <div class="degrade"></div>
             <div class="titulo-quizz">${todosQuizzes[i].title} </div>
         </div>
@@ -140,102 +145,108 @@ function criarQuizzInfo(){
 }
 
 function criarPerguntasQuizz(){
-    const seuQuizz ={
-        titulo:document.querySelector(".titulo").value, 
-        URL:document.querySelector(".url-imagem").value, 
-        qtdperguntas:document.querySelector(".qtd-perguntas").value, 
-        qtdniveis:document.querySelector(".qtd-niveis").value
-    };
-    if(seusQuizzesLocal !== null){
-        seusQuizzes = seusQuizzesLocal;
-        seusQuizzes.push(seuQuizz)
-        const dadosSerializados = JSON.stringify(seusQuizzes)
-        localStorage.setItem("seusQuizzes",dadosSerializados)
-    }else{
-        seusQuizzes.push(seuQuizz)
-        const dadosSerializados = JSON.stringify(seusQuizzes)
-        localStorage.setItem("seusQuizzes", dadosSerializados)
-    }
+    seusQuizzes.title = document.querySelector(".titulo").value;
+    seusQuizzes.image = document.querySelector(".url-imagem").value;
     alert(seusQuizzes)
-    const conteudo = document.querySelector("body")
+    contPerguntas = document.querySelector(".qtd-perguntas").value
+    contNiveis = document.querySelector(".qtd-niveis").value
+    let conteudo = document.querySelector("body")
     conteudo.innerHTML = `
         <div class="topo"> BuzzQuizz</div>
         <div class="conteudo-perguntas-quizz"> <span><strong>Crie suas perguntas</strong></span>
-            <div class="perguntas"> <span><strong>Pergunta 1 </strong> </span>
-                <input type="text" class ="texto-pergunta" placeholder = "Texto da pergunta">
-                <input type="text" class ="cor-fundo" placeholder = "Cor de fundo da pergunta">
-                <span><strong>Resposta Correta</strong></span>
-                <input type="text" class ="resposta-correta" placeholder = "Resposta Correta">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <span><strong>Respostas Incorretas</strong></span>
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 1">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 2">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 3">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-            </div>
-            <div class="perguntas"> <span><strong>Pergunta 2 </strong> </span>
-                <input type="text" class ="texto-pergunta" placeholder = "Texto da pergunta">
-                <input type="text" class ="cor-fundo" placeholder = "Cor de fundo da pergunta">
-                <span><strong>Resposta Correta</strong></span>
-                <input type="text" class ="resposta-correta" placeholder = "Resposta Correta">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <span><strong>Respostas Incorretas</strong></span>
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 1">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 2">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 3">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-            </div>
-            <div class="perguntas"> <span><strong>Pergunta 3 </strong> </span>
-                <input type="text" class ="texto-pergunta" placeholder = "Texto da pergunta">
-                <input type="text" class ="cor-fundo" placeholder = "Cor de fundo da pergunta">
-                <span><strong>Resposta Correta</strong></span>
-                <input type="text" class ="resposta-correta" placeholder = "Resposta Correta">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <span><strong>Respostas Incorretas</strong></span>
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 1">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 2">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta" placeholder = "Resposta Incorreta 3">
-                <input type="text" class ="imagem-resposta" placeholder = "URL da Imagem">
-            </div>
-            <button class="criar" onclick = "criarNiveisQuizz()"> Prosseguir pra criar níveis
+           
         </div>
-    `
+        `
+    conteudo = document.querySelector(".conteudo-perguntas-quizz")
+    for (let i = 0; i < contPerguntas;i++){
+           conteudo.innerHTML+= `<div class="perguntas"> <span><strong>Pergunta ${i+1} </strong> </span>
+                <input type="text" class ="texto-pergunta${i+1}" placeholder = "Texto da pergunta">
+                <input type="text" class ="cor-fundo${i+1}" placeholder = "Cor de fundo da pergunta">
+                <span><strong>Resposta Correta</strong></span>
+                <input type="text" class ="resposta-correta${i+1}" placeholder = "Resposta Correta">
+                <input type="text" class ="imagem-resposta-correta${i+1}" placeholder = "URL da Imagem">
+                <span><strong>Respostas Incorretas</strong></span>
+                <input type="text" class ="resposta-incorreta1${i+1}" placeholder = "Resposta Incorreta 1">
+                <input type="text" class ="imagem-resposta-incorreta1${i+1}" placeholder = "URL da Imagem">
+                <input type="text" class ="resposta-incorreta2${i+1}" placeholder = "Resposta Incorreta 2">
+                <input type="text" class ="imagem-resposta-incorreta2${i+1}" placeholder = "URL da Imagem">
+                <input type="text" class ="resposta-incorreta3${i+1}" placeholder = "Resposta Incorreta 3">
+                <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
+            </div>
+            `
+    }    
+    conteudo.innerHTML+= `<button class="criar" onclick = "criarNiveisQuizz()"> Prosseguir pra criar níveis`
 }
 
 function criarNiveisQuizz(){
-    const conteudo = document.querySelector("body")
-    conteudo.innerHTML = `
-        <div class="topo"> BuzzQuizz</div>
-        <div class="conteudo-niveis-quizz"> <span><strong>Agora decida os níveis</strong></span>
-            <div class="niveis"> <span><strong>Nível 1 </strong> </span>
-                <input type="text" class ="titulo-nivel" placeholder = "Título do nível">
-                <input type="text" class ="acerto-mínimo" placeholder = "% de acerto mínima">
-                <input type="text" class ="imagem-nivel" placeholder = "URL da imagem do nível">
-                <input type="text" class ="descricao-nivel" placeholder = "Descrição do nível">
+    seusQuizzes.questions = [];
+    let answers = [];
+    for (let i = 0; i< contPerguntas; i++){
+        answers = [ {text: document.querySelector(`.resposta-correta${i+1}`).value, image: document.querySelector(`.imagem-resposta-correta${i+1}`).value, isCorrectAnswer: true},
+                    {text: document.querySelector(`.resposta-incorreta1${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta1${i+1}`).value, isCorrectAnswer: false},
+                    {text: document.querySelector(`.resposta-incorreta2${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta2${i+1}`).value, isCorrectAnswer: false},
+                    {text: document.querySelector(`.resposta-incorreta3${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta3${i+1}`).value, isCorrectAnswer: false},
+        ]
+        seusQuizzes.questions[i] = {
+            title: document.querySelector(`.texto-pergunta${i+1}`).value,
+            color: document.querySelector(`.cor-fundo${i+1}`).value
+        }
+
+        seusQuizzes.questions[i].answers=answers;
+    }
+
+  let conteudo = document.querySelector("body")
+  conteudo.innerHTML = `<div class="topo"> BuzzQuizz</div>
+                        <div class="conteudo-niveis-quizz"> <span><strong>Agora decida os níveis</strong></span>
+                        </div
+  `
+    conteudo = document.querySelector(".conteudo-niveis-quizz")
+  for(let i=0; i<contNiveis; i++){
+    conteudo.innerHTML += `
+            <div class="niveis"> <span><strong>Nível ${i+1} </strong> </span>
+                <input type="text" class ="titulo-nivel${i+1}" placeholder = "Título do nível">
+                <input type="text" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
+                <input type="text" class ="imagem-nivel${i+1}" placeholder = "URL da imagem do nível">
+                <input type="text" class ="descricao-nivel${i+1}" placeholder = "Descrição do nível">
             </div>
-            <div class="niveis"> <span><strong>Nível 2 </strong> </span>
-                <input type="text" class ="titulo-nivel" placeholder = "Título do nível">
-                <input type="text" class ="acerto-mínimo" placeholder = "% de acerto mínima">
-                <input type="text" class ="imagem-nivel" placeholder = "URL da imagem do nível">
-                <input type="text" class ="descricao-nivel" placeholder = "Descrição do nível">
-            </div>
-            <div class="niveis"> <span><strong>Nível 3 </strong> </span>
-                <input type="text" class ="titulo-nivel" placeholder = "Título do nível">
-                <input type="text" class ="acerto-mínimo" placeholder = "% de acerto mínima">
-                <input type="text" class ="imagem-nivel" placeholder = "URL da imagem do nível">
-                <input type="text" class ="descricao-nivel" placeholder = "Descrição do nível">
-            </div>
-            <button class="criar" onclick = "criarNiveisQuizz()"> Finalizar Quizz
-        </div>
+            
     `
+  }
+  conteudo.innerHTML+= `<button class="criar" onclick = "finalizarQuizz()"> Finalizar Quizz`
 }
 
+function finalizarQuizz(){
+    seusQuizzes.levels = [];
+    let niveis =[];
+    for (let i=0; i<contNiveis; i++){
+        niveis = {title: document.querySelector(`.titulo-nivel${i+1}`).value, 
+                    image: document.querySelector(`.imagem-nivel${i+1}`).value, 
+                    text: document.querySelector(`.descricao-nivel${i+1}`).value, 
+                    minValue:document.querySelector(`.acerto-mínimo${i+1}`).value }
+        
+        seusQuizzes.levels[i]=niveis;
+    }
+
+    const requisicao = axios.post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes",seusQuizzes);
+    requisicao.then(criarQuizz)
+    requisicao.catch()
+}
+
+function criarQuizz(resposta){
+    let local = resposta.data
+    alert(local.id)
+    if(seusQuizzesLocal !== null){
+        quizzLocal = seusQuizzesLocal;
+        quizzLocal.push(local)
+        const dadosSerializados = JSON.stringify(quizzLocal)
+        localStorage.setItem("seusQuizzes",dadosSerializados)
+    }else{
+        quizzLocal.push(local)
+        const dadosSerializados = JSON.stringify(quizzLocal)
+        localStorage.setItem("seusQuizzes", dadosSerializados)
+    }
+    alert(quizzLocal)
+}
 
 function renderizarHome(){
 
@@ -253,9 +264,9 @@ function renderizarHome(){
         let conteudo3=document.querySelector(".seus-quizzes")
         for ( let i=0; i< seusQuizzesLocal.length;i++){
             conteudo3.innerHTML += `
-                                    <div class="quizz" onclick="exibirTela2()"><img src="${seusQuizzesLocal[i].URL}" alt="${seusQuizzesLocal[i].titulo}">
+                                    <div class="quizz" onclick="exibirTela2()"><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
                                         <div class="degrade"></div>
-                                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].titulo} </div>
+                                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
                                     </div>
             
             `
