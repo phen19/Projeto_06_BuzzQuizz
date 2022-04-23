@@ -1,4 +1,5 @@
 let quizzes = [];
+let quiz = [];
 let acertos = 0;
 let listaQuizzes = [];
 let todosQuizzes = [];
@@ -10,7 +11,8 @@ let contPerguntas = 0;
 let contNiveis =0;
 let quiz = [];
 
-function exibirTela2(){
+function exibirTela2() {
+    console.log(quiz)
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
@@ -120,7 +122,7 @@ function renderizarQuizzes(){
     
     for ( let i=0; i< todosQuizzes.length;i++){
         conteudo.innerHTML += `
-        <div class="quizz" id="${todosQuizzes[i].id}" onclick="exibirTela2()"><img src=${todosQuizzes[i].image}>
+        <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image}>
             <div class="degrade"></div>
             <div class="titulo-quizz">${todosQuizzes[i].title} </div>
         </div>
