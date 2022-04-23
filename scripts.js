@@ -39,7 +39,6 @@ function carregarDadosQuizUnico (dados) {
     exibirTela2()
 }
 
-
 function imprimirTitleQuizz () {
     let texto = "";
     for(let i = 0; i < quiz.questions.length; i++) {
@@ -68,7 +67,7 @@ function imprimirTitleQuizz () {
     
     texto += `
         <button class="reiniciar-quiz" onclick="">Reiniciar Quizz</button>
-        <button class="voltar-home">Voltar pra home</button>
+        <button class="voltar-home" onclick="renderizarHome()">Voltar pra home</button>
     </div>
     `
     return texto;
@@ -214,7 +213,7 @@ function criarNiveisQuizz(){
             
     `
   }
-  conteudo.innerHTML+= `<button class="criar" onclick = "finalizarQuizz()"> Finalizar Quizz`
+  conteudo.innerHTML+= `<button class="criar" onclick = "validarNiveis()"> Finalizar Quizz`
 }
 
 function finalizarQuizz(){
@@ -232,6 +231,8 @@ function finalizarQuizz(){
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes",seusQuizzes);
     requisicao.then(criarQuizz)
     requisicao.catch()
+    
+  
 }
 
 function criarQuizz(resposta){
@@ -248,9 +249,43 @@ function criarQuizz(resposta){
         localStorage.setItem("seusQuizzes", dadosSerializados)
     }
     alert(quizzLocal)
+
+    let i = seusQuizzesLocal.length -1
+    let conteudo = document.querySelector("body")
+    conteudo.innerHTML =`
+            <div class="topo"> BuzzQuizz</div>
+            <div class="conteudo-quizz-criado"> <span><strong>Seu quizz está pronto</strong></span>
+                <div class="quizz-criado" id="${seusQuizzesLocal[i].id}" onclick = "obterUnicoQuiz(this)"><img src="${seusQuizzesLocal[i].image}" alt="">
+                        <div class="degrade-criado"></div>
+                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
+                    </div>
+                </div>
+                <button class="criar" id="${seusQuizzesLocal[i].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
+                <button class="voltar-home" onclick="renderizarHome()">Voltar pra home</button>
+            </div>
+    `
 }
 
 function renderizarHome(){
+
+    let body = document.querySelector("body")
+    body.innerHTML = `<div class="topo"> BuzzQuizz</div>
+    <div class="seus-quizzes-nenhum">
+        
+    </div>
+        <div class="container-seus-quizzes desativado"> 
+            <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span>
+            <div class="seus-quizzes">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-todos-quizzes"> <span>Todos os Quizzes</span>
+        <div class="lista-quizzes">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="scripts.js"></script>`
 
     const conteudo = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
@@ -274,6 +309,7 @@ function renderizarHome(){
             `
         }
     }
+    buscarTodosQuizzes();
 }
 
 function validarInfos(){
@@ -357,5 +393,45 @@ function validarPerguntas(){
     }
     criarNiveisQuizz()
 }
+
+function validarNiveis(){
+    let acertosMinimos = 0;
+    for (let i=0; i<contNiveis;i++){
+        let titulo = document.querySelector(`.titulo-nivel${i+1}`).value
+        let porc = Number(document.querySelector(`.acerto-mínimo${i+1}`).value)
+        let url = document.querySelector(`.imagem-nivel${i+1}`).value
+        let descricao = document.querySelector(`.descricao-nivel${i+1}`).value
+
+        if(titulo.length < 10){
+            alert(`Título do nível ${i+1} deve conter no mínimo 10 caracteres`)
+            return false
+        }
+
+        if((/[0-100]$/i.test(porc)=== false)){
+            alert(`% de acerto mínima deve ser numero entre 0 e 100`)
+            return false
+        }
+
+        if (url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+        alert(`Formato da URL inválida para nivel ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
+        return false;
+        }
+
+        if(descricao.length < 30){
+            alert(`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres`)
+            return false
+        }
+
+        if (porc == "0"){
+            acertosMinimos++
+        }
+    }
+
+    if (acertosMinimos == 0){
+        alert (`Necessário pelo menos um nível ter % mínima igual a 0`)
+        return false
+    }
+    finalizarQuizz()
+}
+
 renderizarHome();
-buscarTodosQuizzes();
