@@ -9,7 +9,6 @@ const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
 let quizzLocal= []
 let contPerguntas = 0;
 let contNiveis =0;
-let quiz = [];
 
 function exibirTela2() {
     console.log(quiz)
@@ -23,7 +22,7 @@ function exibirTela2() {
                     <p class="titulo-quiz-unico">${quiz.title}</p>
                 </div>
                 <div class="conteiner-quizzes">
-                   
+                    ${imprimirTitleQuizz()}
                 </div>
                
             </div>
@@ -177,7 +176,7 @@ function criarPerguntasQuizz(){
             </div>
             `
     }    
-    conteudo.innerHTML+= `<button class="criar" onclick = "criarNiveisQuizz()"> Prosseguir pra criar níveis`
+    conteudo.innerHTML+= `<button class="criar" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
 }
 
 function criarNiveisQuizz(){
@@ -189,6 +188,7 @@ function criarNiveisQuizz(){
                     {text: document.querySelector(`.resposta-incorreta2${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta2${i+1}`).value, isCorrectAnswer: false},
                     {text: document.querySelector(`.resposta-incorreta3${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta3${i+1}`).value, isCorrectAnswer: false},
         ]
+        answers = answers.filter(answer => answer.text !== "" && answer.image !== "");
         seusQuizzes.questions[i] = {
             title: document.querySelector(`.texto-pergunta${i+1}`).value,
             color: document.querySelector(`.cor-fundo${i+1}`).value
@@ -266,7 +266,7 @@ function renderizarHome(){
         let conteudo3=document.querySelector(".seus-quizzes")
         for ( let i=0; i< seusQuizzesLocal.length;i++){
             conteudo3.innerHTML += `
-                                    <div class="quizz" onclick="exibirTela2()"><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
+                                    <div class="quizz" id="${seusQuizzesLocal[i].id}" onclick="obterUnicoQuiz(this)" ><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
                                         <div class="degrade"></div>
                                         <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
                                     </div>
@@ -280,6 +280,7 @@ function validarInfos(){
     let titulo = document.querySelector(".titulo").value
     let qtdperguntas = document.querySelector(".qtd-perguntas").value
     let qtdniveis = document.querySelector(".qtd-niveis").value
+    let url = document.querySelector(".url-imagem").value
     if(titulo.length < 20){
         alert("Titulo deve conter entre 20 e 65 caracteres")
         return false;
@@ -292,11 +293,69 @@ function validarInfos(){
     }if(qtdniveis < 2){
         alert("Quantidade mínima de níveis é 2")
         return false;
+    } if(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null) {
+        alert("Formato da URL inválida. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)")
+        return false;
     }else{
-        
-    }
     criarPerguntasQuizz()
+    }
 }
 
+function validarPerguntas(){
+    for (let i=0; i<contPerguntas;i++){
+        
+        let texto = document.querySelector(`.texto-pergunta${i+1}`).value;
+        let respostaCorreta= document.querySelector(`.resposta-correta${i+1}`).value
+        let cor = document.querySelector(`.cor-fundo${i+1}`).value
+        let urlImagemCorreta = document.querySelector(`.imagem-resposta-correta${i+1}`).value
+        let qtdRespostasIncorretas = 0;
+        let respostaIncorreta1 = document.querySelector(`.resposta-incorreta1${i+1}`).value;
+        let respostaIncorreta2 = document.querySelector(`.resposta-incorreta2${i+1}`).value;
+        let respostaIncorreta3 = document.querySelector(`.resposta-incorreta3${i+1}`).value;
+
+        if(texto.length<20){
+            alert(`Texto da pergunta ${i+1} deve ter no mínimo 20 caracteres`);
+            return false;
+        }if(/^#[0-9A-F]{6}$/i.test(cor)=== false) {
+            alert(`Cor de fundo da pergunta${i+1} deve ser hexadecimal`);
+            return false;
+        }if (respostaCorreta === ""){
+            alert(`Texto da resposta correta  da pergunta ${i+1} não pode ser vazio`)
+            return false;
+        }if (urlImagemCorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+            alert(`Formato da URL inválida para resposta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
+            return false;
+        }
+
+        if(respostaIncorreta1 !== ""){
+            qtdRespostasIncorretas++
+        }if(respostaIncorreta2 !== ""){
+            qtdRespostasIncorretas++
+        }if(respostaIncorreta3 !== ""){
+            qtdRespostasIncorretas++
+        }
+
+        if(qtdRespostasIncorretas == 0){
+            alert("Necessário ter pelo menos uma resposta incorreta preenchida");
+            return false;
+        }
+
+        for (let j = 0; j<qtdRespostasIncorretas;j++){
+            let respostaIncorreta = document.querySelector(`.resposta-incorreta${j+1}${i+1}`).value
+            let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value
+
+            if(respostaIncorreta === ""){
+                alert(`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}`)
+                return false
+            }if (urlImagemIncorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+                alert(`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
+                return false;
+            }
+
+        }
+
+    }
+    criarNiveisQuizz()
+}
 renderizarHome();
 buscarTodosQuizzes();
