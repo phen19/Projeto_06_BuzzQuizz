@@ -8,7 +8,7 @@ const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
 let quizzLocal= []
 let contPerguntas = 0;
 let contNiveis =0;
-
+let quiz = [];
 
 function exibirTela2(){
     const tela2 = document.querySelector("body")
@@ -21,7 +21,7 @@ function exibirTela2(){
                     <p class="titulo-quiz-unico">${quiz.title}</p>
                 </div>
                 <div class="conteiner-quizzes">
-                    ${imprimirTitleQuizz()}
+                   
                 </div>
                
             </div>
@@ -29,14 +29,16 @@ function exibirTela2(){
 }
 
 function obterUnicoQuiz(elemento) {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${(elemento.id)}`)
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
     promise.then(carregarDadosQuizUnico) 
 }
 
 function carregarDadosQuizUnico (dados) {
-    quiz = dados.data
+    quiz = dados.data;
     exibirTela2()
 }
+
+
 function imprimirTitleQuizz () {
     let texto = "";
     for(let i = 0; i < quiz.questions.length; i++) {
