@@ -349,6 +349,7 @@ img{
 
 .conteudo-info-basicas > span{
     font-size: 24px;
+    font-weight: bold;
 }
 
 .info-basicas{
@@ -404,6 +405,7 @@ img{
 
 .conteudo-perguntas-quizz > span{
     font-size: 24px;
+    font-weight: bold;
 }
 
 .perguntas{
