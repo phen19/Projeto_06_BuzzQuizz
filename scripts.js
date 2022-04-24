@@ -159,20 +159,22 @@ function criarPerguntasQuizz(){
         `
     conteudo = document.querySelector(".conteudo-perguntas-quizz")
     for (let i = 0; i < contPerguntas;i++){
-           conteudo.innerHTML+= `<div class="perguntas"> <span><strong>Pergunta ${i+1} </strong> </span>
-                <input type="text" class ="texto-pergunta${i+1}" placeholder = "Texto da pergunta">
-                <input type="text" class ="cor-fundo${i+1}" placeholder = "Cor de fundo da pergunta">
-                <span><strong>Resposta Correta</strong></span>
-                <input type="text" class ="resposta-correta${i+1}" placeholder = "Resposta Correta">
-                <input type="text" class ="imagem-resposta-correta${i+1}" placeholder = "URL da Imagem">
-                <span><strong>Respostas Incorretas</strong></span>
-                <input type="text" class ="resposta-incorreta1${i+1}" placeholder = "Resposta Incorreta 1">
-                <input type="text" class ="imagem-resposta-incorreta1${i+1}" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta2${i+1}" placeholder = "Resposta Incorreta 2">
-                <input type="text" class ="imagem-resposta-incorreta2${i+1}" placeholder = "URL da Imagem">
-                <input type="text" class ="resposta-incorreta3${i+1}" placeholder = "Resposta Incorreta 3">
-                <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
-            </div>
+           conteudo.innerHTML+= `<div class="perguntas"> 
+           <span><strong>Pergunta ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarP(this)"></ion-icon></span>
+           <span><strong>Pergunta ${i+1} </strong> </span>
+           <input type="text" class ="texto-pergunta${i+1} desativado" placeholder = "Texto da pergunta">
+           <input type="text" class ="cor-fundo${i+1}" placeholder = "Cor de fundo da pergunta">
+           <span><strong>Resposta Correta</strong></span>
+           <input type="text" class ="resposta-correta${i+1}" placeholder = "Resposta Correta">
+           <input type="text" class ="imagem-resposta-correta${i+1}" placeholder = "URL da Imagem">
+           <span><strong>Respostas Incorretas</strong></span>
+           <input type="text" class ="resposta-incorreta1${i+1}" placeholder = "Resposta Incorreta 1">
+           <input type="text" class ="imagem-resposta-incorreta1${i+1}" placeholder = "URL da Imagem">
+           <input type="text" class ="resposta-incorreta2${i+1}" placeholder = "Resposta Incorreta 2">
+           <input type="text" class ="imagem-resposta-incorreta2${i+1}" placeholder = "URL da Imagem">
+           <input type="text" class ="resposta-incorreta3${i+1}" placeholder = "Resposta Incorreta 3">
+           <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
+       </div>
             `
     }    
     conteudo.innerHTML+= `<button class="criar" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
@@ -204,12 +206,14 @@ function criarNiveisQuizz(){
     conteudo = document.querySelector(".conteudo-niveis-quizz")
   for(let i=0; i<contNiveis; i++){
     conteudo.innerHTML += `
-            <div class="niveis"> <span><strong>Nível ${i+1} </strong> </span>
-                <input type="text" class ="titulo-nivel${i+1}" placeholder = "Título do nível">
-                <input type="text" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
-                <input type="text" class ="imagem-nivel${i+1}" placeholder = "URL da imagem do nível">
-                <input type="text" class ="descricao-nivel${i+1}" placeholder = "Descrição do nível">
-            </div>
+                    <div class="niveis">
+                        <span><strong>Nível ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarN(this)"></ion-icon></span>
+                        <span><strong>Nível ${i+1} </strong></span>
+                        <input type="text" class ="titulo-nivel${i+1}" placeholder = "Título do nível">
+                        <input type="text" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
+                        <input type="text" class ="imagem-nivel${i+1}" placeholder = "URL da imagem do nível">
+                        <input type="text" class ="descricao-nivel${i+1}" placeholder = "Descrição do nível">
+                    </div>
             
     `
   }
@@ -434,4 +438,20 @@ function validarNiveis(){
     finalizarQuizz()
 }
 
+
+function editarP(perguntaClicada){
+    const perguntaSelecionada = document.querySelector(".perguntas.mostrar")
+    if (perguntaSelecionada !== null) {
+        perguntaSelecionada.classList.remove("mostrar");
+    }
+    perguntaClicada.closest(".perguntas").classList.toggle("mostrar");
+}
+
+function editarN(nivelClicado){
+    const nivelSelecionado = document.querySelector(".niveis.mostrar")
+    if (nivelSelecionado !== null) {
+        nivelSelecionado.classList.remove("mostrar");
+    }
+    nivelClicado.closest(".niveis").classList.toggle("mostrar");
+}
 renderizarHome();
