@@ -1,6 +1,7 @@
 let quizzes = [];
 let quiz = [];
 let acertos = 0;
+let perguntas = 0;
 let listaQuizzes = [];
 let todosQuizzes = [];
 let seusQuizzes = {};
@@ -8,11 +9,10 @@ const seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
 const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
 let quizzLocal= []
 let contPerguntas = 0;
-let contNiveis =0;
-
+let contNiveis = 0;
 
 function exibirTela2() {
-    console.log(quiz)
+
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
@@ -25,13 +25,14 @@ function exibirTela2() {
                 <div class="conteiner-quizzes">
                     ${imprimirTitleQuizz()}
                 </div>
-               
+                 
             </div>
             `
 }
 
 function obterUnicoQuiz(elemento) {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
+    console.log(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
     promise.then(carregarDadosQuizUnico) 
 }
 
@@ -60,21 +61,24 @@ function imprimirTitleQuizz () {
                 </button>
             `
         }
+
         texto += `
             </div>
+        </div>      
         `
     }
-    
-    texto += `
-        <button class="reiniciar-quiz" onclick="">Reiniciar Quizz</button>
-        <button class="voltar-home">Voltar pra home</button>
-    </div>
+    texto +=`
+        <div class="conteudo-final"></div>
     `
     return texto;
+    
 }
 
 function comparador() { 
 	return Math.random() - 0.5; 
+}
+function avaliarResultadoQuiz() {
+    console.log(acertos, perguntas, )
 }
 
 function selecionarResposta(elemento) {
@@ -96,16 +100,62 @@ function selecionarResposta(elemento) {
     }
     elemento.classList.remove("opaco")
     elemento.querySelector("p").classList.add("resposta-correta")
-    setTimeout(()=>{rolar(elemento)}, 2000)
+    perguntas += 1;
+    setTimeout(()=>{rolar(elemento)}, 2000)  
 }
 function rolar(elemento) {
     elemento.parentNode.lastElementChild.scrollIntoView()
+    if(perguntas === quiz.questions.length) {
+        const rolarFinal = document.querySelector(".conteudo-final")
+        rolarFinal.scrollIntoView()
+    }
 }
 function analizarResposta(elemento) {
     if(elemento.dataset.verifica === "true") {
         acertos += 1;
     }
+    if(perguntas === quiz.questions.length) {
+        const botoes = document.querySelector(".tela-2");
+        const final = document.querySelector(".conteudo-final");
+        let comparacaoResposta = parseInt((Math.round((acertos / perguntas) * 100).toFixed(2)));
+        for(let i = 0; i < quiz.levels.length; i ++) {
+    
+            if(comparacaoResposta >= quiz.levels[i].minValue) {
+                
+                final.innerHTML = `
+                
+                    <div class="titulo-quiz-secundario quiz-resultado" style="background-color:${quiz.levels[i].color}">
+                        <p>${comparacaoResposta}% ${quiz.levels[i].title}</p>
+                    </div>
+                    <div class="quiz-imagens parte-final">
+                        <div>
+                            <img src=${quiz.levels[i].image} alt="" />
+                        </div>
+                        <p>${quiz.levels[i].text}</p>
+                    </div>   
+                `
+            }
+        }
+        botoes.innerHTML += `
+            <button class="reiniciar-quiz" onclick="reiniciarQuizz()">Reiniciar Quizz</button>
+            <button class="voltar-home" onclick="voltarInicio()">Voltar pra home</button>   
+        `
+    }
 }
+
+function reiniciarQuizz() {
+    perguntas = 0;
+    acertos = 0;
+    document.querySelector(".tela-2").innerHTML = "";
+    exibirTela2()
+    document.querySelector(".titulo-quiz-topo").scrollIntoView()
+}
+
+function voltarInicio() {
+    document.querySelector(".tela-2").innerHTML = "";
+    window.location.reload()
+}
+
 function buscarTodosQuizzes(){
     const promessa = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes");
     promessa.then(carregarDados);
@@ -264,7 +314,7 @@ function renderizarHome(){
         let conteudo3=document.querySelector(".seus-quizzes")
         for ( let i=0; i< seusQuizzesLocal.length;i++){
             conteudo3.innerHTML += `
-                                    <div class="quizz" onclick="exibirTela2()"><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
+                                    <div class="quizz" onclick="obterUnicoQuiz(this)"><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
                                         <div class="degrade"></div>
                                         <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
                                     </div>
