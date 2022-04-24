@@ -37,9 +37,10 @@ function obterUnicoQuiz(elemento) {
 }
 
 function carregarDadosQuizUnico (dados) {
-    quiz = dados.data
+    quiz = dados.data;
     exibirTela2()
 }
+
 function imprimirTitleQuizz () {
     let texto = "";
     for(let i = 0; i < quiz.questions.length; i++) {
@@ -225,7 +226,7 @@ function criarPerguntasQuizz(){
             </div>
             `
     }    
-    conteudo.innerHTML+= `<button class="criar" onclick = "criarNiveisQuizz()"> Prosseguir pra criar níveis`
+    conteudo.innerHTML+= `<button class="criar" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
 }
 
 function criarNiveisQuizz(){
@@ -237,6 +238,7 @@ function criarNiveisQuizz(){
                     {text: document.querySelector(`.resposta-incorreta2${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta2${i+1}`).value, isCorrectAnswer: false},
                     {text: document.querySelector(`.resposta-incorreta3${i+1}`).value, image: document.querySelector(`.imagem-resposta-incorreta3${i+1}`).value, isCorrectAnswer: false},
         ]
+        answers = answers.filter(answer => answer.text !== "" && answer.image !== "");
         seusQuizzes.questions[i] = {
             title: document.querySelector(`.texto-pergunta${i+1}`).value,
             color: document.querySelector(`.cor-fundo${i+1}`).value
@@ -262,7 +264,7 @@ function criarNiveisQuizz(){
             
     `
   }
-  conteudo.innerHTML+= `<button class="criar" onclick = "finalizarQuizz()"> Finalizar Quizz`
+  conteudo.innerHTML+= `<button class="criar" onclick = "validarNiveis()"> Finalizar Quizz`
 }
 
 function finalizarQuizz(){
@@ -280,6 +282,8 @@ function finalizarQuizz(){
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes",seusQuizzes);
     requisicao.then(criarQuizz)
     requisicao.catch()
+    
+  
 }
 
 function criarQuizz(resposta){
@@ -296,9 +300,43 @@ function criarQuizz(resposta){
         localStorage.setItem("seusQuizzes", dadosSerializados)
     }
     alert(quizzLocal)
+
+    let i = seusQuizzesLocal.length -1
+    let conteudo = document.querySelector("body")
+    conteudo.innerHTML =`
+            <div class="topo"> BuzzQuizz</div>
+            <div class="conteudo-quizz-criado"> <span><strong>Seu quizz está pronto</strong></span>
+                <div class="quizz-criado" id="${seusQuizzesLocal[i].id}" onclick = "obterUnicoQuiz(this)"><img src="${seusQuizzesLocal[i].image}" alt="">
+                        <div class="degrade-criado"></div>
+                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
+                    </div>
+                </div>
+                <button class="criar" id="${seusQuizzesLocal[i].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
+                <button class="voltar-home" onclick="renderizarHome()">Voltar pra home</button>
+            </div>
+    `
 }
 
 function renderizarHome(){
+
+    let body = document.querySelector("body")
+    body.innerHTML = `<div class="topo"> BuzzQuizz</div>
+    <div class="seus-quizzes-nenhum">
+        
+    </div>
+        <div class="container-seus-quizzes desativado"> 
+            <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span>
+            <div class="seus-quizzes">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-todos-quizzes"> <span>Todos os Quizzes</span>
+        <div class="lista-quizzes">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="scripts.js"></script>`
 
     const conteudo = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
@@ -314,7 +352,7 @@ function renderizarHome(){
         let conteudo3=document.querySelector(".seus-quizzes")
         for ( let i=0; i< seusQuizzesLocal.length;i++){
             conteudo3.innerHTML += `
-                                    <div class="quizz" onclick="obterUnicoQuiz(this)"><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
+                                    <div class="quizz" id="${seusQuizzesLocal[i].id}" onclick="obterUnicoQuiz(this)" ><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
                                         <div class="degrade"></div>
                                         <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
                                     </div>
@@ -322,12 +360,14 @@ function renderizarHome(){
             `
         }
     }
+    buscarTodosQuizzes();
 }
 
 function validarInfos(){
     let titulo = document.querySelector(".titulo").value
     let qtdperguntas = document.querySelector(".qtd-perguntas").value
     let qtdniveis = document.querySelector(".qtd-niveis").value
+    let url = document.querySelector(".url-imagem").value
     if(titulo.length < 20){
         alert("Titulo deve conter entre 20 e 65 caracteres")
         return false;
@@ -340,11 +380,109 @@ function validarInfos(){
     }if(qtdniveis < 2){
         alert("Quantidade mínima de níveis é 2")
         return false;
+    } if(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null) {
+        alert("Formato da URL inválida. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)")
+        return false;
     }else{
-        
-    }
     criarPerguntasQuizz()
+    }
+}
+
+function validarPerguntas(){
+    for (let i=0; i<contPerguntas;i++){
+        
+        let texto = document.querySelector(`.texto-pergunta${i+1}`).value;
+        let respostaCorreta= document.querySelector(`.resposta-correta${i+1}`).value
+        let cor = document.querySelector(`.cor-fundo${i+1}`).value
+        let urlImagemCorreta = document.querySelector(`.imagem-resposta-correta${i+1}`).value
+        let qtdRespostasIncorretas = 0;
+        let respostaIncorreta1 = document.querySelector(`.resposta-incorreta1${i+1}`).value;
+        let respostaIncorreta2 = document.querySelector(`.resposta-incorreta2${i+1}`).value;
+        let respostaIncorreta3 = document.querySelector(`.resposta-incorreta3${i+1}`).value;
+
+        if(texto.length<20){
+            alert(`Texto da pergunta ${i+1} deve ter no mínimo 20 caracteres`);
+            return false;
+        }if(/^#[0-9A-F]{6}$/i.test(cor)=== false) {
+            alert(`Cor de fundo da pergunta${i+1} deve ser hexadecimal`);
+            return false;
+        }if (respostaCorreta === ""){
+            alert(`Texto da resposta correta  da pergunta ${i+1} não pode ser vazio`)
+            return false;
+        }if (urlImagemCorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+            alert(`Formato da URL inválida para resposta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
+            return false;
+        }
+
+        if(respostaIncorreta1 !== ""){
+            qtdRespostasIncorretas++
+        }if(respostaIncorreta2 !== ""){
+            qtdRespostasIncorretas++
+        }if(respostaIncorreta3 !== ""){
+            qtdRespostasIncorretas++
+        }
+
+        if(qtdRespostasIncorretas == 0){
+            alert("Necessário ter pelo menos uma resposta incorreta preenchida");
+            return false;
+        }
+
+        for (let j = 0; j<qtdRespostasIncorretas;j++){
+            let respostaIncorreta = document.querySelector(`.resposta-incorreta${j+1}${i+1}`).value
+            let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value
+
+            if(respostaIncorreta === ""){
+                alert(`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}`)
+                return false
+            }if (urlImagemIncorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+                alert(`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
+                return false;
+            }
+
+        }
+
+    }
+    criarNiveisQuizz()
+}
+
+function validarNiveis(){
+    let acertosMinimos = 0;
+    for (let i=0; i<contNiveis;i++){
+        let titulo = document.querySelector(`.titulo-nivel${i+1}`).value
+        let porc = Number(document.querySelector(`.acerto-mínimo${i+1}`).value)
+        let url = document.querySelector(`.imagem-nivel${i+1}`).value
+        let descricao = document.querySelector(`.descricao-nivel${i+1}`).value
+
+        if(titulo.length < 10){
+            alert(`Título do nível ${i+1} deve conter no mínimo 10 caracteres`)
+            return false
+        }
+
+        if((/[0-100]$/i.test(porc)=== false)){
+            alert(`% de acerto mínima deve ser numero entre 0 e 100`)
+            return false
+        }
+
+        if (url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+        alert(`Formato da URL inválida para nivel ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
+        return false;
+        }
+
+        if(descricao.length < 30){
+            alert(`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres`)
+            return false
+        }
+
+        if (porc == "0"){
+            acertosMinimos++
+        }
+    }
+
+    if (acertosMinimos == 0){
+        alert (`Necessário pelo menos um nível ter % mínima igual a 0`)
+        return false
+    }
+    finalizarQuizz()
 }
 
 renderizarHome();
-buscarTodosQuizzes();
