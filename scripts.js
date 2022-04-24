@@ -11,6 +11,7 @@ let quizzLocal= []
 let contPerguntas = 0;
 let contNiveis = 0;
 
+
 function exibirTela2() {
 
     const tela2 = document.querySelector("body")
@@ -186,9 +187,13 @@ function criarQuizzInfo(){
         <div class="conteudo-info-basicas"> <span><strong>Comece pelo começo</strong></span>
             <div class="info-basicas"> 
                 <input type="text" class ="titulo" placeholder = "Título do seu quizz">
+                <p class ="titulo"> </p>
                 <input type="text" class ="url-imagem" placeholder = "URL da imagem do seu quizz">
+                <p class ="url-imagem"> </p>
                 <input type="text" class ="qtd-perguntas" placeholder = "Quantidade de perguntas do quizz">
+                <p class ="qtd-perguntas"> </p>
                 <input type="text" class ="qtd-niveis" placeholder = "Quantidade de níveis do quizz">
+                <p class ="qtd-niveis"> </p>
             </div>
             <button class="criar" onclick = "validarInfos()"> Prosseguir pra criar perguntas
         </div>
@@ -214,17 +219,28 @@ function criarPerguntasQuizz(){
            <span><strong>Pergunta ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarP(this)"></ion-icon></span>
            <span><strong>Pergunta ${i+1} </strong> </span>
            <input type="text" class ="texto-pergunta${i+1} desativado" placeholder = "Texto da pergunta">
+           <p class ="texto-pergunta${i+1}"></p>
            <input type="text" class ="cor-fundo${i+1}" placeholder = "Cor de fundo da pergunta">
+           <p class ="cor-fundo${i+1}"></p>
            <span><strong>Resposta Correta</strong></span>
            <input type="text" class ="resposta-correta${i+1}" placeholder = "Resposta Correta">
+           <p class ="resposta-correta${i+1}"></p>
            <input type="text" class ="imagem-resposta-correta${i+1}" placeholder = "URL da Imagem">
+           <p class ="imagem-resposta-correta${i+1}"></p>
            <span><strong>Respostas Incorretas</strong></span>
+           <p class ="qtdRespostaIncorreta${i+1}"> </p>
            <input type="text" class ="resposta-incorreta1${i+1}" placeholder = "Resposta Incorreta 1">
+           <p class ="resposta-incorreta1${i+1}"></p>
            <input type="text" class ="imagem-resposta-incorreta1${i+1}" placeholder = "URL da Imagem">
+           <p class ="imagem-resposta-incorreta1${i+1}"></p>
            <input type="text" class ="resposta-incorreta2${i+1}" placeholder = "Resposta Incorreta 2">
+           <p class ="resposta-incorreta2${i+1}"></p>
            <input type="text" class ="imagem-resposta-incorreta2${i+1}" placeholder = "URL da Imagem">
+           <p class ="imagem-resposta-incorreta2${i+1}"></p>
            <input type="text" class ="resposta-incorreta3${i+1}" placeholder = "Resposta Incorreta 3">
+           <p class ="resposta-incorreta3${i+1}"></p>
            <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
+           <p class ="imagem-resposta-incorreta3${i+1}"></p>
        </div>
             `
     }    
@@ -261,9 +277,14 @@ function criarNiveisQuizz(){
                         <span><strong>Nível ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarN(this)"></ion-icon></span>
                         <span><strong>Nível ${i+1} </strong></span>
                         <input type="text" class ="titulo-nivel${i+1}" placeholder = "Título do nível">
-                        <input type="text" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
+                        <p class ="titulo-nivel${i+1}"></p>
+                        <input type="text" id="qtdAcertoMinimo" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
+                        <p class ="acerto-mínimo${i+1}"></p>
+                        <p class ="qtdAcertoMinimo"></p>
                         <input type="text" class ="imagem-nivel${i+1}" placeholder = "URL da imagem do nível">
+                        <p class ="imagem-nivel${i+1}"></p>
                         <input type="text" class ="descricao-nivel${i+1}" placeholder = "Descrição do nível">
+                        <p class ="descricao-nivel${i+1}"></p>
                     </div>
             
     `
@@ -367,34 +388,46 @@ function renderizarHome(){
     buscarTodosQuizzes();
 }
 
+
 function validarInfos(){
+    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
+    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
     let titulo = document.querySelector(".titulo").value
     let qtdperguntas = document.querySelector(".qtd-perguntas").value
     let qtdniveis = document.querySelector(".qtd-niveis").value
     let url = document.querySelector(".url-imagem").value
+    let erros =[]
     if(titulo.length < 20){
-        alert("Titulo deve conter entre 20 e 65 caracteres")
-        return false;
+        erros.push({ erro: `titulo`,
+                mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`})
     }if (titulo.length > 65){
-        alert("Titulo deve conter entre 20 e 65 caracteres")
-        return false;
+        erros.push({ erro: `titulo`,
+                mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`})
+    }if(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null) {
+        erros.push({ erro: `url-imagem`,
+                mensagem:`URL inválida\n`})
     }if(qtdperguntas < 3){
-        alert("Quantidade mínima de perguntas é 3")
-        return false;
+        erros.push({ erro: `qtd-perguntas`,
+                mensagem: `Quantidade mínima de perguntas é 3\n`})
     }if(qtdniveis < 2){
-        alert("Quantidade mínima de níveis é 2")
-        return false;
-    } if(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null) {
-        alert("Formato da URL inválida. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)")
-        return false;
+        erros.push({ erro: `qtd-niveis`,
+                mensagem: `Quantidade mínima de níveis é 2\n`})
+    }if(erros.length > 0){
+        for (let i=0; i<erros.length; i++){
+            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
+            document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
+        }
+        return false
     }else{
     criarPerguntasQuizz()
     }
 }
 
 function validarPerguntas(){
+    let erros = []
+    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
+    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
     for (let i=0; i<contPerguntas;i++){
-        
         let texto = document.querySelector(`.texto-pergunta${i+1}`).value;
         let respostaCorreta= document.querySelector(`.resposta-correta${i+1}`).value
         let cor = document.querySelector(`.cor-fundo${i+1}`).value
@@ -405,76 +438,83 @@ function validarPerguntas(){
         let respostaIncorreta3 = document.querySelector(`.resposta-incorreta3${i+1}`).value;
 
         if(texto.length<20){
-            alert(`Texto da pergunta ${i+1} deve ter no mínimo 20 caracteres`);
-            return false;
+            erros.push({ erro: `texto-pergunta${i+1}`,
+                mensagem:`Texto da pergunta ${i+1} deve ter no mínimo 20 caracteres\n`})
         }if(/^#[0-9A-F]{6}$/i.test(cor)=== false) {
-            alert(`Cor de fundo da pergunta${i+1} deve ser hexadecimal`);
-            return false;
+            erros.push({ erro: `cor-fundo${i+1}`,
+                mensagem:`Cor de fundo da pergunta${i+1} deve ser hexadecimal\n`})
         }if (respostaCorreta === ""){
-            alert(`Texto da resposta correta  da pergunta ${i+1} não pode ser vazio`)
-            return false;
+            erros.push({ erro: `resposta-correta${i+1}`,
+                mensagem:`Texto da resposta correta da pergunta ${i+1} não pode ser vazio\n`})
         }if (urlImagemCorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
-            alert(`Formato da URL inválida para resposta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
-            return false;
-        }
-
-        if(respostaIncorreta1 !== ""){
+            erros.push({ erro: `imagem-resposta-correta${i+1}`,
+                mensagem:`Formato da URL inválida para resposta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)\n`})
+        }if(respostaIncorreta1 !== ""){
             qtdRespostasIncorretas++
         }if(respostaIncorreta2 !== ""){
             qtdRespostasIncorretas++
         }if(respostaIncorreta3 !== ""){
             qtdRespostasIncorretas++
-        }
-
-        if(qtdRespostasIncorretas == 0){
-            alert("Necessário ter pelo menos uma resposta incorreta preenchida");
-            return false;
-        }
-
-        for (let j = 0; j<qtdRespostasIncorretas;j++){
+        }if(qtdRespostasIncorretas == 0){
+            document.querySelector(`.qtdRespostaIncorreta${i+1}`).innerHTML = "Necessário ter pelo menos uma resposta incorreta preenchida"
+        }if(qtdRespostasIncorretas > 0){
+           for (let j = 0; j<qtdRespostasIncorretas;j++){
             let respostaIncorreta = document.querySelector(`.resposta-incorreta${j+1}${i+1}`).value
             let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value
 
             if(respostaIncorreta === ""){
-                alert(`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}`)
-                return false
+                alert("erro aqui")
+                erros.push({ erro: `resposta-incorreta${j+1}${i+1}`,
+                mensagem:`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}\n`})
+                
             }if (urlImagemIncorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
-                alert(`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
-                return false;
+                erros.push({ erro: `imagem-resposta-incorreta${j+1}${i+1}`,
+                mensagem:`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)\n`})
             }
-
+            }
         }
-
     }
-    criarNiveisQuizz()
+    if(erros.length > 0){
+        for (let i=0; i<erros.length; i++){
+            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
+            document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
+        }
+        return false
+    }else{
+        criarNiveisQuizz()
+    }    
 }
-
+let erros = []
 function validarNiveis(){
+    erros = []
     let acertosMinimos = 0;
+    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
+    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
     for (let i=0; i<contNiveis;i++){
         let titulo = document.querySelector(`.titulo-nivel${i+1}`).value
         let porc = Number(document.querySelector(`.acerto-mínimo${i+1}`).value)
         let url = document.querySelector(`.imagem-nivel${i+1}`).value
         let descricao = document.querySelector(`.descricao-nivel${i+1}`).value
+        
 
         if(titulo.length < 10){
-            alert(`Título do nível ${i+1} deve conter no mínimo 10 caracteres`)
-            return false
+            erros.push({ erro: `titulo-nivel${i+1}`,
+                mensagem:`Título do nível ${i+1} deve conter no mínimo 10 caracteres\n`})
         }
 
-        if((/[0-100]$/i.test(porc)=== false)){
-            alert(`% de acerto mínima deve ser numero entre 0 e 100`)
-            return false
+        if(/[0-100]$/i.test(porc) === false){
+            erros.push({ erro: `acerto-mínimo${i+1}`,
+                mensagem:`% de acerto mínima deve ser numero entre 0 e 100\n`})
         }
 
         if (url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
-        alert(`Formato da URL inválida para nivel ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)`)
-        return false;
+            erros.push({ erro: `imagem-nivel${i+1}`,
+                mensagem:`Formato da URL inválida para nivel ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)\n`})
         }
 
         if(descricao.length < 30){
-            alert(`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres`)
-            return false
+            erros.push({ erro: `descricao-nivel${i+1}`,
+                mensagem:`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres\n`})
         }
 
         if (porc == "0"){
@@ -483,12 +523,20 @@ function validarNiveis(){
     }
 
     if (acertosMinimos == 0){
-        alert (`Necessário pelo menos um nível ter % mínima igual a 0`)
-        return false
+        document.querySelectorAll(`.qtdAcertoMinimo`).forEach((elemento)=>{elemento.innerHTML = "Necessário pelo menos um nível ter % mínima igual a 0"})
+        document.querySelectorAll(`[id = qtdAcertoMinimo]`).forEach((elemento)=>{elemento.classList.add("erro")})
     }
-    finalizarQuizz()
-}
 
+    if(erros !== null){
+        for (let i=0; i<erros.length; i++){
+            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
+            document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
+        }
+        return false
+    }else{
+    finalizarQuizz()
+    }
+}
 
 function editarP(perguntaClicada){
     const perguntaSelecionada = document.querySelector(".perguntas.mostrar")
