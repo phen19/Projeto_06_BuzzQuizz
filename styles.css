@@ -130,6 +130,10 @@ body{
 }
 .quiz-imagens > button {
     border: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 6px;
 }
 .quiz-imagens > button > img {
     object-fit: cover;
@@ -138,7 +142,7 @@ body{
     cursor: pointer;
 }
 .quiz-imagens > button > p {
-    width: 330px;
+  
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
@@ -620,23 +624,33 @@ p{
     }
     .quiz-imagens, .titulo-quiz-secundario{
         width: 340px;
+        
     }
     .titulo-quiz-topo {
         height: 142px;
+
     }
     .titulo-quiz-secundario > p, .titulo-quiz-unico {
         font-size: 19px;
         line-height: 22px;
     }
+    .titulo-quiz-secundario > p {
+        padding: 16px;
+    } 
     .quiz-imagens > button {
         width: 164px;
         height: 148px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
     }
     .quiz-imagens > button > img {
         width: 164px;
         height: 114px;
     }
     .quiz-imagens > button > p {
+        width: 164px;
         font-size: 13px;
         line-height: 15px;
     }

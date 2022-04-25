@@ -1,20 +1,20 @@
-let quizzes = [];
 let quiz = [];
 let acertos = 0;
 let perguntas = 0;
 let listaQuizzes = [];
 let todosQuizzes = [];
 let seusQuizzes = {};
-const seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
+const seusQuizzesSerializado = localStorage.getItem("seusQuizzes");
 const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
-let quizzLocal= []
+let quizzLocal= [];
 let contPerguntas = 0;
 let contNiveis = 0;
 
 
 function exibirTela2() {
 
-    const tela2 = document.querySelector("body")
+    const tela2 = document.querySelector("body");
+
     tela2.innerHTML = `
             <div class="tela-2">
                 <div class="topo-quiz"><p>BuzzQuiz</p></div>
@@ -28,18 +28,17 @@ function exibirTela2() {
                 </div>
                  
             </div>
-            `
+            `;
 }
 
 function obterUnicoQuiz(elemento) {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
-    console.log(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
-    promise.then(carregarDadosQuizUnico) 
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`);
+    promise.then(carregarDadosQuizUnico);
 }
 
 function carregarDadosQuizUnico (dados) {
     quiz = dados.data;
-    exibirTela2()
+    exibirTela2();
 }
 
 function imprimirQuizz () {
@@ -51,8 +50,8 @@ function imprimirQuizz () {
                 <p>${quiz.questions[i].title}</p>
             </div>
             <div class="quiz-imagens">
-        `
-        quiz.questions[i].answers.sort(comparador)
+        `;
+        quiz.questions[i].answers.sort(comparador);
 
         for(let c = 0; c < quiz.questions[i].answers.length; c++) {
             texto += `
@@ -61,17 +60,17 @@ function imprimirQuizz () {
                     <img src=${quiz.questions[i].answers[c].image} alt="" />
                     <p>${quiz.questions[i].answers[c].text}</p>
                 </button>
-            `
+            `;
         }
 
         texto += `
             </div>
         </div>      
-        `
+        `;
     }
     texto +=`
         <div class="conteudo-final desativado"></div>
-    `
+    `;
     return texto;
     
 }
@@ -82,31 +81,31 @@ function comparador() {
 
 function selecionarResposta(elemento) {
   
-    let conteudoQuizz = elemento.parentNode.querySelectorAll("button")
+    let conteudoQuizz = elemento.parentNode.querySelectorAll("button");
 
-    console.log(conteudoQuizz)
     for(let i = 0; i < conteudoQuizz.length; i++) {
-            
         if(conteudoQuizz[i].dataset.verifica === "true") {
-            conteudoQuizz[i].querySelector("p").classList.add("resposta-correta")
+            conteudoQuizz[i].querySelector("p").classList.add("resposta-correta");
         }
+
         else {
-            
-            conteudoQuizz[i].querySelector("p").classList.add("resposta-errada")
+            conteudoQuizz[i].querySelector("p").classList.add("resposta-errada");
         }
-        conteudoQuizz[i].classList.add("opaco")
+
+        conteudoQuizz[i].classList.add("opaco");
         conteudoQuizz[i].disabled = true;
     }
-    elemento.classList.remove("opaco")
-    elemento.querySelector("p").classList.add("resposta-correta")
+
+    elemento.classList.remove("opaco");
+    elemento.querySelector("p").classList.add("resposta-correta");
     perguntas += 1;
-    setTimeout(()=>{rolar(elemento)}, 2000)  
+    setTimeout(()=>{rolar(elemento)}, 2000);  
 }
 function rolar(elemento) {
-    elemento.parentNode.lastElementChild.scrollIntoView()
+    elemento.parentNode.lastElementChild.scrollIntoView();
     if(perguntas === quiz.questions.length) {
-        const rolarFinal = document.querySelector(".conteudo-final")
-        rolarFinal.scrollIntoView()
+        const rolarFinal = document.querySelector(".conteudo-final");
+        rolarFinal.scrollIntoView();
     }
 }
 function analizarResposta(elemento) {
@@ -116,7 +115,7 @@ function analizarResposta(elemento) {
     if(perguntas === quiz.questions.length) {
         const botoes = document.querySelector(".tela-2");
         const final = document.querySelector(".conteudo-final");
-        final.classList.remove("desativado")
+        final.classList.remove("desativado");
         let comparacaoResposta = parseInt((Math.round((acertos / perguntas) * 100).toFixed(2)));
         for(let i = 0; i < quiz.levels.length; i ++) {
     
@@ -133,13 +132,13 @@ function analizarResposta(elemento) {
                         </div>
                         <p>${quiz.levels[i].text}</p>
                     </div>   
-                `
+                `;
             }
         }
         botoes.innerHTML += `
             <button class="reiniciar-quiz" onclick="reiniciarQuizz()">Reiniciar Quizz</button>
             <button class="voltar-home" onclick="voltarInicio()">Voltar pra home</button>   
-        `
+        `;
     }
 }
 
@@ -147,8 +146,8 @@ function reiniciarQuizz() {
     perguntas = 0;
     acertos = 0;
     document.querySelector(".tela-2").innerHTML = "";
-    exibirTela2()
-    document.querySelector(".titulo-quiz-topo").scrollIntoView()
+    exibirTela2();
+    document.querySelector(".titulo-quiz-topo").scrollIntoView();
 }
 
 function voltarInicio() {
