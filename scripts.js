@@ -11,6 +11,15 @@ let contPerguntas = 0;
 let contNiveis = 0;
 
 
+function carregarTelaLoading() {
+    const telaLoading = document.querySelector("body");
+    telaLoading.innerHTML = `
+    <div class="loading">
+        <img class="barra-loading" src="./images/loading.gif" alt="loading" />
+        <p>Carregando</p>
+    </div>`
+}
+
 function exibirTela2() {
 
     const tela2 = document.querySelector("body");
@@ -38,7 +47,8 @@ function obterUnicoQuiz(elemento) {
 
 function carregarDadosQuizUnico (dados) {
     quiz = dados.data;
-    exibirTela2();
+    carregarTelaLoading()
+    setTimeout(exibirTela2, 2000)
 }
 
 function imprimirQuizz () {
@@ -161,7 +171,7 @@ function buscarTodosQuizzes(){
 }
 function carregarDados(dados){
     todosQuizzes = dados.data;
-    renderizarQuizzes();
+    setTimeout(renderizarQuizzes, 3000);
 }
 function renderizarQuizzes(){
     const conteudo = document.querySelector(".lista-quizzes");
