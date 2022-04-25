@@ -524,7 +524,7 @@ function validarNiveis(){
         document.querySelectorAll(`[id = qtdAcertoMinimo]`).forEach((elemento)=>{elemento.classList.add("erro")})
     }
 
-    if(erros !== null){
+    if(erros.length > 0){
         for (let i=0; i<erros.length; i++){
             document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
             document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
