@@ -167,6 +167,7 @@ function buscarTodosQuizzesCriado(){
 }
 function carregarDadosCriado(dados){
     todosQuizzesAtt = dados.data;
+    renderizarQuizzCriado()
 }
 
 
@@ -242,7 +243,6 @@ function criarQuizzInfo(){
 function criarPerguntasQuizz(){
     seusQuizzes.title = document.querySelector(".titulo").value;
     seusQuizzes.image = document.querySelector(".url-imagem").value;
-    alert(seusQuizzes)
     contPerguntas = document.querySelector(".qtd-perguntas").value
     contNiveis = document.querySelector(".qtd-niveis").value
     let conteudo = document.querySelector("body")
@@ -366,17 +366,14 @@ function criarQuizz(resposta){
         seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
         seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
     }
-    alert(quizzLocal)
 
     buscarTodosQuizzesCriado()
-    renderizarQuizzCriado()
+    
 }
 
 function renderizarQuizzCriado(){
     indice = seusQuizzesLocal.length
     checkCriado = todosQuizzesAtt.filter(function(elemento){ return elemento.id===seusQuizzesLocal[indice-1];})
-    alert(seusQuizzesLocal)
-    alert(checkCriado)
     if (checkCriado.length !==0) {
     let conteudo = document.querySelector("body")
     conteudo.innerHTML =`
@@ -491,7 +488,6 @@ function validarPerguntas(){
             let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value
 
             if(respostaIncorreta === ""){
-                alert("erro aqui")
                 erros.push({ erro: `resposta-incorreta${j+1}${i+1}`,
                 mensagem:`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}\n`})
                 
