@@ -171,7 +171,6 @@ function carregarDadosCriado(dados){
 }
 
 
-
 function renderizarQuizzes(){
     const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
@@ -384,7 +383,7 @@ function renderizarQuizzCriado(){
                         <div class="titulo-quizz"> ${checkCriado[0].title} </div>
                     </div>
                 </div>
-                <button class="criar" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
+                <button class="criar-acessar-quizz" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
                 <button class="voltar-home" onclick="renderizarHome()">Voltar pra home</button>
             </div>
     `}
@@ -397,7 +396,7 @@ function renderizarHome(){
         
     </div>
         <div class="container-seus-quizzes desativado"> 
-            <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span>
+            <div class ="cabecalho"><span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span></div>
             <div class="seus-quizzes">
                 </div>
             </div>
@@ -577,6 +576,5 @@ function editarN(nivelClicado){
     }
     nivelClicado.closest(".niveis").classList.toggle("mostrar");
 }
-
 
 renderizarHome();
