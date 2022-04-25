@@ -1,15 +1,16 @@
+let quizzes = [];
 let quiz = [];
 let acertos = 0;
 let perguntas = 0;
 let listaQuizzes = [];
 let todosQuizzes = [];
 let seusQuizzes = {};
-const seusQuizzesSerializado = localStorage.getItem("seusQuizzes");
-const seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
-let quizzLocal= [];
+let seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
+let seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
+let quizzLocal= []
 let contPerguntas = 0;
 let contNiveis = 0;
-
+let todosQuizzesAtt = []
 
 function carregarTelaLoading() {
     const telaLoading = document.querySelector("body");
@@ -22,8 +23,7 @@ function carregarTelaLoading() {
 
 function exibirTela2() {
 
-    const tela2 = document.querySelector("body");
-
+    const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
                 <div class="topo-quiz"><p>BuzzQuiz</p></div>
@@ -93,23 +93,20 @@ function selecionarResposta(elemento) {
   
     let conteudoQuizz = elemento.parentNode.querySelectorAll("button");
 
-    for(let i = 0; i < conteudoQuizz.length; i++) {
+    for(let i = 0; i < conteudoQuizz.length; i++) {           
         if(conteudoQuizz[i].dataset.verifica === "true") {
             conteudoQuizz[i].querySelector("p").classList.add("resposta-correta");
         }
-
-        else {
+        else {  
             conteudoQuizz[i].querySelector("p").classList.add("resposta-errada");
         }
-
         conteudoQuizz[i].classList.add("opaco");
         conteudoQuizz[i].disabled = true;
     }
-
     elemento.classList.remove("opaco");
     elemento.querySelector("p").classList.add("resposta-correta");
     perguntas += 1;
-    setTimeout(()=>{rolar(elemento)}, 2000);  
+    setTimeout(()=>{rolar(elemento)}, 2000); 
 }
 function rolar(elemento) {
     elemento.parentNode.lastElementChild.scrollIntoView();
@@ -173,7 +170,52 @@ function carregarDados(dados){
     todosQuizzes = dados.data;
     setTimeout(renderizarQuizzes, 3000);
 }
+
+function buscarTodosQuizzesCriado(){
+    const promessa = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes");
+    promessa.then(carregarDadosCriado);
+}
+function carregarDadosCriado(dados){
+    todosQuizzesAtt = dados.data;
+    renderizarQuizzCriado()
+}
+
+
+
 function renderizarQuizzes(){
+    const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
+    let conteudo2= document.querySelector(".container-seus-quizzes")
+    if (seusQuizzesLocal === null){
+        conteudo1.innerHTML = `
+                            <div class="container-seus-quizzes-nenhum ">
+                                <span>Você não criou nenhum quizz ainda :(</span>
+                                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
+                            </div>
+        `
+    }else{
+        conteudo2.classList.remove("desativado")
+        let conteudo3=document.querySelector(".seus-quizzes")
+        let check= [];
+        for ( let i=0; i< seusQuizzesLocal.length;i++){
+            check = todosQuizzes.filter(function(elemento){ return elemento.id==seusQuizzesLocal[i];})
+            if (check.length !==0){
+            conteudo3.innerHTML += `
+                                    <div class="quizz" id="${check[0].id}" onclick="obterUnicoQuiz(this)" ><img src="${check[0].image}" alt="${check[0].title}">
+                                        <div class="degrade"></div>
+                                        <div class="titulo-quizz"> ${check[0].title} </div>
+                                    </div>
+            
+            `}
+     /*       conteudo3.innerHTML += `
+                                    <div class="quizz" id="${seusQuizzesLocal[i].id}" onclick="obterUnicoQuiz(this)" ><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
+                                        <div class="degrade"></div>
+                                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
+                                    </div>
+            
+            `*/
+        }
+    }
+
     const conteudo = document.querySelector(".lista-quizzes");
     conteudo.innerHTML ="";
     
@@ -184,8 +226,9 @@ function renderizarQuizzes(){
             <div class="titulo-quizz">${todosQuizzes[i].title} </div>
         </div>
         `
-    }      
+    }
 }
+
 
 function criarQuizzInfo(){
     const conteudo = document.querySelector("body")
@@ -210,7 +253,6 @@ function criarQuizzInfo(){
 function criarPerguntasQuizz(){
     seusQuizzes.title = document.querySelector(".titulo").value;
     seusQuizzes.image = document.querySelector(".url-imagem").value;
-    alert(seusQuizzes)
     contPerguntas = document.querySelector(".qtd-perguntas").value
     contNiveis = document.querySelector(".qtd-niveis").value
     let conteudo = document.querySelector("body")
@@ -318,39 +360,47 @@ function finalizarQuizz(){
   
 }
 
+let checkCriado
+let indice = 0
 function criarQuizz(resposta){
     let local = resposta.data
-    alert(local.id)
     if(seusQuizzesLocal !== null){
         quizzLocal = seusQuizzesLocal;
-        quizzLocal.push(local)
+        quizzLocal.push(local.id)
         const dadosSerializados = JSON.stringify(quizzLocal)
         localStorage.setItem("seusQuizzes",dadosSerializados)
     }else{
-        quizzLocal.push(local)
+        quizzLocal.push(local.id)
         const dadosSerializados = JSON.stringify(quizzLocal)
         localStorage.setItem("seusQuizzes", dadosSerializados)
+        seusQuizzesSerializado = localStorage.getItem("seusQuizzes")
+        seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
     }
-    alert(quizzLocal)
 
-    let i = seusQuizzesLocal.length -1
+    buscarTodosQuizzesCriado()
+    
+}
+
+function renderizarQuizzCriado(){
+    indice = seusQuizzesLocal.length
+    checkCriado = todosQuizzesAtt.filter(function(elemento){ return elemento.id===seusQuizzesLocal[indice-1];})
+    if (checkCriado.length !==0) {
     let conteudo = document.querySelector("body")
     conteudo.innerHTML =`
             <div class="topo"> BuzzQuizz</div>
             <div class="conteudo-quizz-criado"> <span><strong>Seu quizz está pronto</strong></span>
-                <div class="quizz-criado" id="${seusQuizzesLocal[i].id}" onclick = "obterUnicoQuiz(this)"><img src="${seusQuizzesLocal[i].image}" alt="">
+                <div class="quizz-criado" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"><img src="${checkCriado[0].image}" alt="">
                         <div class="degrade-criado"></div>
-                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
+                        <div class="titulo-quizz"> ${checkCriado[0].title} </div>
                     </div>
                 </div>
-                <button class="criar" id="${seusQuizzesLocal[i].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
+                <button class="criar" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
                 <button class="voltar-home" onclick="renderizarHome()">Voltar pra home</button>
             </div>
-    `
+    `}
 }
 
 function renderizarHome(){
-
     let body = document.querySelector("body")
     body.innerHTML = `<div class="topo"> BuzzQuizz</div>
     <div class="seus-quizzes-nenhum">
@@ -370,28 +420,6 @@ function renderizarHome(){
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="scripts.js"></script>`
 
-    const conteudo = document.querySelector(".seus-quizzes-nenhum")
-    let conteudo2= document.querySelector(".container-seus-quizzes")
-    if (seusQuizzesLocal === null){
-        conteudo.innerHTML = `
-                            <div class="container-seus-quizzes-nenhum ">
-                                <span>Você não criou nenhum quizz ainda :(</span>
-                                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
-                            </div>
-        `
-    }else{
-        conteudo2.classList.remove("desativado")
-        let conteudo3=document.querySelector(".seus-quizzes")
-        for ( let i=0; i< seusQuizzesLocal.length;i++){
-            conteudo3.innerHTML += `
-                                    <div class="quizz" id="${seusQuizzesLocal[i].id}" onclick="obterUnicoQuiz(this)" ><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
-                                        <div class="degrade"></div>
-                                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
-                                    </div>
-            
-            `
-        }
-    }
     buscarTodosQuizzes();
 }
 
@@ -470,7 +498,6 @@ function validarPerguntas(){
             let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value
 
             if(respostaIncorreta === ""){
-                alert("erro aqui")
                 erros.push({ erro: `resposta-incorreta${j+1}${i+1}`,
                 mensagem:`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}\n`})
                 
@@ -534,7 +561,7 @@ function validarNiveis(){
         document.querySelectorAll(`[id = qtdAcertoMinimo]`).forEach((elemento)=>{elemento.classList.add("erro")})
     }
 
-    if(erros !== null){
+    if(erros.length>0){
         for (let i=0; i<erros.length; i++){
             document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
             document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
@@ -560,4 +587,6 @@ function editarN(nivelClicado){
     }
     nivelClicado.closest(".niveis").classList.toggle("mostrar");
 }
+
+
 renderizarHome();
