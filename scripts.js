@@ -294,7 +294,7 @@ function criarPerguntasQuizz(){
        </div>
             `
     }    
-    conteudo.innerHTML+= `<button class="criar" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
+    conteudo.innerHTML+= `<button class="criar-prosseguir-niveis" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
 }
 
 function criarNiveisQuizz(){
