@@ -746,7 +746,7 @@ p{
         width: 324px;
     }
     .quizz-criado{
-        width: 100%;
+        width: 340px;
         height: 180px;
         display: flex;
         justify-content: center;
@@ -758,9 +758,30 @@ p{
     }
     
     .degrade-criado{
-        margin-left:18px;
+        
     }
     input{
-        width: 341px;
+        width: 96%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .info-basicas{
+        box-sizing: border-box;
+        padding-left: 0px;
+    }
+
+    .criar-prosseguir-niveis{
+        margin-top: 46px;
+        margin-bottom: 61px;
+        width: 368px;
+        height: 54px;
+        background: #EC362D;
+        border-radius: 15px;
+        border: transparent;
+        color: #FFF5F4;
+        font-size: 21px;
+        text-align: center;
+        cursor: pointer;
     }
 }

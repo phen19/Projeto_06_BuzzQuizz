@@ -294,7 +294,7 @@ function criarPerguntasQuizz(){
        </div>
             `
     }    
-    conteudo.innerHTML+= `<button class="criar" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
+    conteudo.innerHTML+= `<button class="criar-prosseguir-niveis" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
 }
 
 function criarNiveisQuizz(){
@@ -525,23 +525,29 @@ function validarPerguntas(){
     }    
 }
 let erros = []
+let acertosMinimos = 0;
 function validarNiveis(){
     erros = []
-    let acertosMinimos = 0;
+    acertosMinimos = 0;
     document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
     document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
+    let porcentagem = []
     for (let i=0; i<contNiveis;i++){
         let titulo = document.querySelector(`.titulo-nivel${i+1}`).value
-        let porc = Number(document.querySelector(`.acerto-mínimo${i+1}`).value)
+        let porc = document.querySelector(`.acerto-mínimo${i+1}`).value
         let url = document.querySelector(`.imagem-nivel${i+1}`).value
         let descricao = document.querySelector(`.descricao-nivel${i+1}`).value
-        
 
         if(titulo.length < 10){
             erros.push({ erro: `titulo-nivel${i+1}`,
                 mensagem:`Título do nível ${i+1} deve conter no mínimo 10 caracteres\n`})
         }
 
+        if(porc.length == 0){
+            erros.push({ erro: `acerto-mínimo${i+1}`,
+                mensagem:`Acerto mínimo não pode ser vazio\n`})
+        }
+        
         if(/[0-100]$/i.test(porc) === false){
             erros.push({ erro: `acerto-mínimo${i+1}`,
                 mensagem:`% de acerto mínima deve ser numero entre 0 e 100\n`})
@@ -557,14 +563,24 @@ function validarNiveis(){
                 mensagem:`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres\n`})
         }
 
-        if (porc == "0"){
+        if (porc == 0){
             acertosMinimos++
         }
+
+        for (let j = 0 ; j < porcentagem.length ; j ++) {
+            if (porcentagem[j] === porc && porcentagem !== []) {
+                document.querySelector(`p.acerto-mínimo${i+1}`).innerHTML = "Essa % de acerto mínima já foi atríbuida para outro nível";
+                document.querySelector(`input.acerto-mínimo${i+1}`).classList.add("erro")
+            }
+        }
+        porcentagem.push(porc);
+
     }
 
-    if (acertosMinimos == 0){
+    if (acertosMinimos === 0){
         document.querySelectorAll(`.qtdAcertoMinimo`).forEach((elemento)=>{elemento.innerHTML = "Necessário pelo menos um nível ter % mínima igual a 0"})
         document.querySelectorAll(`[id = qtdAcertoMinimo]`).forEach((elemento)=>{elemento.classList.add("erro")})
+        
     }
 
     if(erros.length>0){
