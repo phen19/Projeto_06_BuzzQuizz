@@ -24,25 +24,24 @@ function exibirTela2() {
                     <p class="titulo-quiz-unico">${quiz.title}</p>
                 </div>
                 <div class="conteiner-quizzes">
-                    ${imprimirTitleQuizz()}
+                    ${imprimirQuizz()}
                 </div>
                  
             </div>
-            `
+            `;
 }
 
 function obterUnicoQuiz(elemento) {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
-    console.log(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`)
-    promise.then(carregarDadosQuizUnico) 
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`);
+    promise.then(carregarDadosQuizUnico);
 }
 
 function carregarDadosQuizUnico (dados) {
     quiz = dados.data;
-    exibirTela2()
+    exibirTela2();
 }
 
-function imprimirTitleQuizz () {
+function imprimirQuizz () {
     let texto = "";
     for(let i = 0; i < quiz.questions.length; i++) {
         texto += `
@@ -51,8 +50,8 @@ function imprimirTitleQuizz () {
                 <p>${quiz.questions[i].title}</p>
             </div>
             <div class="quiz-imagens">
-        `
-        quiz.questions[i].answers.sort(comparador)
+        `;
+        quiz.questions[i].answers.sort(comparador);
 
         for(let c = 0; c < quiz.questions[i].answers.length; c++) {
             texto += `
@@ -61,17 +60,17 @@ function imprimirTitleQuizz () {
                     <img src=${quiz.questions[i].answers[c].image} alt="" />
                     <p>${quiz.questions[i].answers[c].text}</p>
                 </button>
-            `
+            `;
         }
 
         texto += `
             </div>
         </div>      
-        `
+        `;
     }
     texto +=`
-        <div class="conteudo-final"></div>
-    `
+        <div class="conteudo-final desativado"></div>
+    `;
     return texto;
     
 }
@@ -79,37 +78,31 @@ function imprimirTitleQuizz () {
 function comparador() { 
 	return Math.random() - 0.5; 
 }
-function avaliarResultadoQuiz() {
-    console.log(acertos, perguntas, )
-}
 
 function selecionarResposta(elemento) {
   
-    let conteudoQuizz = elemento.parentNode.querySelectorAll("button")
+    let conteudoQuizz = elemento.parentNode.querySelectorAll("button");
 
-    console.log(conteudoQuizz)
-    for(let i = 0; i < conteudoQuizz.length; i++) {
-            
+    for(let i = 0; i < conteudoQuizz.length; i++) {           
         if(conteudoQuizz[i].dataset.verifica === "true") {
-            conteudoQuizz[i].querySelector("p").classList.add("resposta-correta")
+            conteudoQuizz[i].querySelector("p").classList.add("resposta-correta");
         }
-        else {
-            
-            conteudoQuizz[i].querySelector("p").classList.add("resposta-errada")
+        else {  
+            conteudoQuizz[i].querySelector("p").classList.add("resposta-errada");
         }
-        conteudoQuizz[i].classList.add("opaco")
+        conteudoQuizz[i].classList.add("opaco");
         conteudoQuizz[i].disabled = true;
     }
-    elemento.classList.remove("opaco")
-    elemento.querySelector("p").classList.add("resposta-correta")
+    elemento.classList.remove("opaco");
+    elemento.querySelector("p").classList.add("resposta-correta");
     perguntas += 1;
-    setTimeout(()=>{rolar(elemento)}, 2000)  
+    setTimeout(()=>{rolar(elemento)}, 2000); 
 }
 function rolar(elemento) {
-    elemento.parentNode.lastElementChild.scrollIntoView()
+    elemento.parentNode.lastElementChild.scrollIntoView();
     if(perguntas === quiz.questions.length) {
-        const rolarFinal = document.querySelector(".conteudo-final")
-        rolarFinal.scrollIntoView()
+        const rolarFinal = document.querySelector(".conteudo-final");
+        rolarFinal.scrollIntoView();
     }
 }
 function analizarResposta(elemento) {
@@ -119,6 +112,7 @@ function analizarResposta(elemento) {
     if(perguntas === quiz.questions.length) {
         const botoes = document.querySelector(".tela-2");
         const final = document.querySelector(".conteudo-final");
+        final.classList.remove("desativado");
         let comparacaoResposta = parseInt((Math.round((acertos / perguntas) * 100).toFixed(2)));
         for(let i = 0; i < quiz.levels.length; i ++) {
     
@@ -135,13 +129,13 @@ function analizarResposta(elemento) {
                         </div>
                         <p>${quiz.levels[i].text}</p>
                     </div>   
-                `
+                `;
             }
         }
         botoes.innerHTML += `
             <button class="reiniciar-quiz" onclick="reiniciarQuizz()">Reiniciar Quizz</button>
             <button class="voltar-home" onclick="voltarInicio()">Voltar pra home</button>   
-        `
+        `;
     }
 }
 
@@ -149,8 +143,8 @@ function reiniciarQuizz() {
     perguntas = 0;
     acertos = 0;
     document.querySelector(".tela-2").innerHTML = "";
-    exibirTela2()
-    document.querySelector(".titulo-quiz-topo").scrollIntoView()
+    exibirTela2();
+    document.querySelector(".titulo-quiz-topo").scrollIntoView();
 }
 
 function voltarInicio() {
@@ -383,11 +377,12 @@ function renderizarQuizzCriado(){
     checkCriado = todosQuizzesAtt.filter(function(elemento){ return elemento.id===seusQuizzesLocal[indice-1];})
     alert(seusQuizzesLocal)
     alert(checkCriado)
+    if (checkCriado.length !==0) {
     let conteudo = document.querySelector("body")
     conteudo.innerHTML =`
             <div class="topo"> BuzzQuizz</div>
             <div class="conteudo-quizz-criado"> <span><strong>Seu quizz está pronto</strong></span>
-                <div class="quizz-criado" id="${checkCriado.id}" onclick = "obterUnicoQuiz(this)"><img src="${checkCriado[0].image}" alt="">
+                <div class="quizz-criado" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"><img src="${checkCriado[0].image}" alt="">
                         <div class="degrade-criado"></div>
                         <div class="titulo-quizz"> ${checkCriado[0].title} </div>
                     </div>
@@ -395,8 +390,7 @@ function renderizarQuizzCriado(){
                 <button class="criar" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
                 <button class="voltar-home" onclick="renderizarHome()">Voltar pra home</button>
             </div>
-    `
-
+    `}
 }
 
 function renderizarHome(){
