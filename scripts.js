@@ -12,6 +12,15 @@ let contPerguntas = 0;
 let contNiveis = 0;
 let todosQuizzesAtt = []
 
+function carregarTelaLoading() {
+    const telaLoading = document.querySelector("body");
+    telaLoading.innerHTML = `
+    <div class="loading">
+        <img class="barra-loading" src="./images/loading.gif" alt="loading" />
+        <p>Carregando</p>
+    </div>`
+}
+
 function exibirTela2() {
 
     const tela2 = document.querySelector("body")
@@ -26,7 +35,6 @@ function exibirTela2() {
                 <div class="conteiner-quizzes">
                     ${imprimirQuizz()}
                 </div>
-                 
             </div>
             `;
 }
@@ -38,7 +46,8 @@ function obterUnicoQuiz(elemento) {
 
 function carregarDadosQuizUnico (dados) {
     quiz = dados.data;
-    exibirTela2();
+    carregarTelaLoading()
+    setTimeout(exibirTela2, 2000)
 }
 
 function imprimirQuizz () {
@@ -149,7 +158,11 @@ function reiniciarQuizz() {
 
 function voltarInicio() {
     document.querySelector(".tela-2").innerHTML = "";
-    window.location.reload()
+    carregarTela1();
+}
+function carregarTela1() {
+    carregarTelaLoading()
+    setTimeout(renderizarHome, 2000);
 }
 
 function buscarTodosQuizzes(){
@@ -158,7 +171,7 @@ function buscarTodosQuizzes(){
 }
 function carregarDados(dados){
     todosQuizzes = dados.data;
-    renderizarQuizzes();
+    renderizarQuizzes()
 }
 
 function buscarTodosQuizzesCriado(){
@@ -170,7 +183,6 @@ function carregarDadosCriado(dados){
     renderizarQuizzCriado()
 }
 
-
 function renderizarQuizzes(){
     const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
@@ -178,7 +190,7 @@ function renderizarQuizzes(){
         conteudo1.innerHTML = `
                             <div class="container-seus-quizzes-nenhum ">
                                 <span>Você não criou nenhum quizz ainda :(</span>
-                                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
+                                <div class="botao-criar-grande" onclick="carregarCriacaoQuizz()">Criar Quizz</div>
                             </div>
         `
     }else{
@@ -368,6 +380,11 @@ function criarQuizz(resposta){
 
     buscarTodosQuizzesCriado()
     
+}
+
+function carregarCriacaoQuizz() {
+    carregarTelaLoading()
+    setTimeout(criarQuizzInfo, 2000)
 }
 
 function renderizarQuizzCriado(){
@@ -577,4 +594,4 @@ function editarN(nivelClicado){
     nivelClicado.closest(".niveis").classList.toggle("mostrar");
 }
 
-renderizarHome();
+carregarTela1();

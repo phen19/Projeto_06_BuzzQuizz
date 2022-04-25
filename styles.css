@@ -6,6 +6,18 @@ body{
     flex-direction: column;
     background-color: #E5E5E5;
 }
+body > .loading {
+    width: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.barra-loading {
+    width: 100px;
+    height: 100px;
+}
 .tela-2 {
     width: 100%;
     position: relative;
@@ -84,7 +96,6 @@ body{
     width: 760px;
     height: 100%;
     margin: 42px 0px;
- 
 }
 .conteudo-final {
     height: 430px;
@@ -134,6 +145,7 @@ body{
     flex-direction: column;
     justify-content: space-around;
     padding: 6px;
+    background-color: #FFFFFF;
 }
 .quiz-imagens > button > img {
     object-fit: cover;
@@ -673,8 +685,9 @@ p{
     }
     .quiz-imagens > button > p {
         width: 164px;
-        font-size: 13px;
+        font-size: 12px;
         line-height: 15px;
+        word-break: break-all;
     }
     .parte-final {
         display: flex;
