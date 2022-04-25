@@ -35,7 +35,6 @@ function exibirTela2() {
                 <div class="conteiner-quizzes">
                     ${imprimirQuizz()}
                 </div>
-                 
             </div>
             `;
 }
@@ -159,7 +158,11 @@ function reiniciarQuizz() {
 
 function voltarInicio() {
     document.querySelector(".tela-2").innerHTML = "";
-    window.location.reload()
+    carregarTela1();
+}
+function carregarTela1() {
+    carregarTelaLoading()
+    setTimeout(renderizarHome, 2000);
 }
 
 function buscarTodosQuizzes(){
@@ -168,7 +171,7 @@ function buscarTodosQuizzes(){
 }
 function carregarDados(dados){
     todosQuizzes = dados.data;
-    setTimeout(renderizarQuizzes, 3000);
+    renderizarQuizzes()
 }
 
 function buscarTodosQuizzesCriado(){
@@ -180,8 +183,6 @@ function carregarDadosCriado(dados){
     renderizarQuizzCriado()
 }
 
-
-
 function renderizarQuizzes(){
     const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
@@ -189,7 +190,7 @@ function renderizarQuizzes(){
         conteudo1.innerHTML = `
                             <div class="container-seus-quizzes-nenhum ">
                                 <span>Você não criou nenhum quizz ainda :(</span>
-                                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
+                                <div class="botao-criar-grande" onclick="carregarCriacaoQuizz()">Criar Quizz</div>
                             </div>
         `
     }else{
@@ -381,6 +382,11 @@ function criarQuizz(resposta){
     
 }
 
+function carregarCriacaoQuizz() {
+    carregarTelaLoading()
+    setTimeout(criarQuizzInfo, 2000)
+}
+
 function renderizarQuizzCriado(){
     indice = seusQuizzesLocal.length
     checkCriado = todosQuizzesAtt.filter(function(elemento){ return elemento.id===seusQuizzesLocal[indice-1];})
@@ -407,7 +413,7 @@ function renderizarHome(){
         
     </div>
         <div class="container-seus-quizzes desativado"> 
-            <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span>
+            <span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="carregarCriacaoQuizz()">+</span>
             <div class="seus-quizzes">
                 </div>
             </div>
@@ -588,5 +594,4 @@ function editarN(nivelClicado){
     nivelClicado.closest(".niveis").classList.toggle("mostrar");
 }
 
-
-renderizarHome();
+carregarTela1()
