@@ -24,7 +24,7 @@ function exibirTela2() {
                     <p class="titulo-quiz-unico">${quiz.title}</p>
                 </div>
                 <div class="conteiner-quizzes">
-                    ${imprimirTitleQuizz()}
+                    ${imprimirQuizz()}
                 </div>
                  
             </div>
@@ -42,7 +42,7 @@ function carregarDadosQuizUnico (dados) {
     exibirTela2()
 }
 
-function imprimirTitleQuizz () {
+function imprimirQuizz () {
     let texto = "";
     for(let i = 0; i < quiz.questions.length; i++) {
         texto += `
@@ -70,7 +70,7 @@ function imprimirTitleQuizz () {
         `
     }
     texto +=`
-        <div class="conteudo-final escondido"></div>
+        <div class="conteudo-final desativado"></div>
     `
     return texto;
     
@@ -78,9 +78,6 @@ function imprimirTitleQuizz () {
 
 function comparador() { 
 	return Math.random() - 0.5; 
-}
-function avaliarResultadoQuiz() {
-    console.log(acertos, perguntas, )
 }
 
 function selecionarResposta(elemento) {
@@ -119,7 +116,7 @@ function analizarResposta(elemento) {
     if(perguntas === quiz.questions.length) {
         const botoes = document.querySelector(".tela-2");
         const final = document.querySelector(".conteudo-final");
-        final.classList.remove("escondido")
+        final.classList.remove("desativado")
         let comparacaoResposta = parseInt((Math.round((acertos / perguntas) * 100).toFixed(2)));
         for(let i = 0; i < quiz.levels.length; i ++) {
     
