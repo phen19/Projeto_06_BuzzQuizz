@@ -69,7 +69,7 @@ function imprimirTitleQuizz () {
         `
     }
     texto +=`
-        <div class="conteudo-final"></div>
+        <div class="conteudo-final escondido"></div>
     `
     return texto;
     
@@ -118,6 +118,7 @@ function analizarResposta(elemento) {
     if(perguntas === quiz.questions.length) {
         const botoes = document.querySelector(".tela-2");
         const final = document.querySelector(".conteudo-final");
+        final.classList.remove("escondido")
         let comparacaoResposta = parseInt((Math.round((acertos / perguntas) * 100).toFixed(2)));
         for(let i = 0; i < quiz.levels.length; i ++) {
     
