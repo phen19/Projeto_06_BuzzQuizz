@@ -741,6 +741,8 @@ p{
     }
     .seus-quizzes{
         justify-content: center;
+        overflow: scroll;
+        max-height: 386px;
     }
     .cabecalho{
         width: 100%;
