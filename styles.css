@@ -246,6 +246,10 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top:0;
+    right: 0;
+    z-index: 1;
 }
 .desativado {
     display: none;
@@ -790,10 +794,10 @@ p{
         padding-left: 0px;
     }
 
-    .criar-prosseguir-niveis{
+    .criar-prosseguir-niveis, .criar-acessar-quizz{
         margin-top: 46px;
         margin-bottom: 61px;
-        width: 368px;
+        width: 324px;
         height: 54px;
         background: #EC362D;
         border-radius: 15px;
@@ -803,4 +807,9 @@ p{
         text-align: center;
         cursor: pointer;
     }
+
+    .container-seus-quizzes, .container-seus-quizzes-nenhum, .conteudo-info-basicas, .conteudo-perguntas-quizz, .conteudo-niveis-quizz, .conteudo-quizz-criado{
+        margin-top: 108px;
+    }
+
 }
