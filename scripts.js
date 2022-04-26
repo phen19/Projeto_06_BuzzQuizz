@@ -26,7 +26,7 @@ function exibirTela2() {
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
-                <div class="topo-quiz"><p>BuzzQuiz</p></div>
+                <div class="topo-quiz"><p>BuzzQuizz</p></div>
                 <div class="titulo-quiz-topo">
                     <div class="degrade-img"></div>
                     <img class="banner-quiz-unico" src="${quiz.image}" alt="Banner do Quiz" />
@@ -448,9 +448,9 @@ function validarInfos(){
     }if (titulo.length > 65){
         erros.push({ erro: `titulo`,
                 mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`})
-    }if(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null) {
+    }if(url.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null) {
         erros.push({ erro: `url-imagem`,
-                mensagem:`URL inválida\n`})
+                mensagem:`Formato de URL inválida\n`})
     }if(qtdperguntas < 3){
         erros.push({ erro: `qtd-perguntas`,
                 mensagem: `Quantidade mínima de perguntas é 3\n`})
@@ -491,9 +491,9 @@ function validarPerguntas(){
         }if (respostaCorreta === ""){
             erros.push({ erro: `resposta-correta${i+1}`,
                 mensagem:`Texto da resposta correta da pergunta ${i+1} não pode ser vazio\n`})
-        }if (urlImagemCorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+        }if (urlImagemCorreta.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null){
             erros.push({ erro: `imagem-resposta-correta${i+1}`,
-                mensagem:`Formato da URL inválida para resposta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)\n`})
+                mensagem:`Formato da URL inválida para resposta ${i+1}.\n`})
         }if(respostaIncorreta1 !== ""){
             qtdRespostasIncorretas++
         }if(respostaIncorreta2 !== ""){
@@ -511,9 +511,9 @@ function validarPerguntas(){
                 erros.push({ erro: `resposta-incorreta${j+1}${i+1}`,
                 mensagem:`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}\n`})
                 
-            }if (urlImagemIncorreta.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+            }if (urlImagemIncorreta.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null){
                 erros.push({ erro: `imagem-resposta-incorreta${j+1}${i+1}`,
-                mensagem:`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)\n`})
+                mensagem:`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}.\n`})
             }
             }
         }
@@ -557,9 +557,9 @@ function validarNiveis(){
                 mensagem:`% de acerto mínima deve ser numero entre 0 e 100\n`})
         }
 
-        if (url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null){
+        if (url.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null){
             erros.push({ erro: `imagem-nivel${i+1}`,
-                mensagem:`Formato da URL inválida para nivel ${i+1}. Deve ser iniciado com http e ter uma das extensões de imagem (jpeg|jpg|gif|png)\n`})
+                mensagem:`Formato da URL inválida para nivel ${i+1}.\n`})
         }
 
         if(descricao.length < 30){
