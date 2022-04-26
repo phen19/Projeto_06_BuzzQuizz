@@ -451,7 +451,7 @@ function validarInfos(){
     }if (titulo.length > 65){
         erros.push({ erro: `titulo`,
                 mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`})
-    }if(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) === null) {
+    }if(url.match(/^http.*\.(jpeg|jpg|gif|png)/) === null) {
         erros.push({ erro: `url-imagem`,
                 mensagem:`URL inválida\n`})
     }if(qtdperguntas < 3){
