@@ -423,6 +423,19 @@ img{
     text-align: center;
     cursor: pointer;
 }
+.criar-prosseguir-niveis{
+    margin-top: 85px;
+    margin-bottom: 61px;
+    width: 368px;
+    height: 54px;
+    background: #EC362D;
+    border-radius: 15px;
+    border: transparent;
+    color: #FFF5F4;
+    font-size: 21px;
+    text-align: center;
+    cursor: pointer;
+}
 
 /* Criação - Perguntas Quizz */
 
@@ -652,6 +665,7 @@ p{
     cursor: pointer;
 }
 
+
 @media(max-width: 768px) {
     .topo-quiz {
         width: 100%;
@@ -750,6 +764,11 @@ p{
     .quizz-criado > img, .degrade-criado{
         width: 340px;
         height: 180px;
+        object-fit: cover;
+    }
+
+    img{
+        object-fit: cover;
     }
 
     input{
