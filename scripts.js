@@ -10,15 +10,15 @@ let seusQuizzesLocal = JSON.parse(seusQuizzesSerializado);
 let quizzLocal= []
 let contPerguntas = 0;
 let contNiveis = 0;
-let todosQuizzesAtt = []
+let todosQuizzesAtt = [];
 
 function carregarTelaLoading() {
     const telaLoading = document.querySelector("body");
     telaLoading.innerHTML = `
     <div class="loading">
-        <img class="barra-loading" src="./images/loading.gif" alt="loading" />
+        <img class="barra-loading" src="./images/loading.gif" alt="Carregando" />
         <p>Carregando</p>
-    </div>`
+    </div>`;
 }
 
 function exibirTela2() {
@@ -29,7 +29,7 @@ function exibirTela2() {
                 <div class="topo-quiz"><p>BuzzQuiz</p></div>
                 <div class="titulo-quiz-topo">
                     <div class="degrade-img"></div>
-                    <img class="banner-quiz-unico" src="${quiz.image}" />
+                    <img class="banner-quiz-unico" src="${quiz.image}" alt="Banner do Quiz" />
                     <p class="titulo-quiz-unico">${quiz.title}</p>
                 </div>
                 <div class="conteiner-quizzes">
@@ -42,7 +42,7 @@ function exibirTela2() {
 function obterUnicoQuiz(elemento) {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${(elemento.id)}`);
     promise.then(carregarDadosQuizUnico);
-    carregarTelaLoading()
+    carregarTelaLoading();
 }
 
 function carregarDadosQuizUnico (dados) {
@@ -66,12 +66,11 @@ function imprimirQuizz () {
             texto += `
             
                 <button onclick="selecionarResposta(this), analizarResposta(this)" data-verifica="${quiz.questions[i].answers[c].isCorrectAnswer}">
-                    <img src=${quiz.questions[i].answers[c].image} alt="" />
+                    <img src=${quiz.questions[i].answers[c].image} alt="Imagem do Quiz" />
                     <p>${quiz.questions[i].answers[c].text}</p>
                 </button>
             `;
         }
-
         texto += `
             </div>
         </div>      
@@ -130,7 +129,6 @@ function analizarResposta(elemento) {
             if(comparacaoResposta >= quiz.levels[i].minValue) {
                 
                 final.innerHTML = `
-                
                     <div class="titulo-quiz-secundario quiz-resultado" style="background-color:${quiz.levels[i].color}">
                         <p>${comparacaoResposta}% ${quiz.levels[i].title}</p>
                     </div>
@@ -172,7 +170,6 @@ function buscarTodosQuizzes(){
 
 function carregarDados(dados){
     todosQuizzes = dados.data;
- 
     renderizarQuizzes()
 }
 
@@ -184,8 +181,8 @@ function buscarTodosQuizzesCriado(){
 function carregarDadosCriado(dados){
     todosQuizzesAtt = dados.data;
     renderizarQuizzCriado()
+    carregarTelaLoading()
 }
-
 
 function renderizarQuizzes(){
     let body = document.querySelector("body")
