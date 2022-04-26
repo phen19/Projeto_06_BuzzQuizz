@@ -35,6 +35,8 @@ function exibirTela2() {
                 ${imprimirQuizz()}
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="scripts.js"></script>
         `;
 }
 
@@ -190,16 +192,16 @@ function renderizarQuizzes(){
         <div class="seus-quizzes-nenhum">
             
         </div>
-            <div class="container-seus-quizzes desativado"> 
-                <div class ="cabecalho"><span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span></div>
-                <div class="seus-quizzes"></div>
-            </div>
+        <div class="container-seus-quizzes desativado"> 
+            <div class ="cabecalho"><span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span></div>
+            <div class="seus-quizzes"></div>
         </div>
-        <div class="container-todos-quizzes"> <span>Todos os Quizzes</span>
+        <div class="container-todos-quizzes">
+            <span>Todos os Quizzes</span>
             <div class="lista-quizzes"></div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="scripts.js"></script>`
+        <script src="scripts.js"></script>`;
 
     const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
