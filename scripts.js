@@ -1,4 +1,3 @@
-let quizzes = [];
 let quiz = [];
 let acertos = 0;
 let perguntas = 0;
@@ -15,28 +14,28 @@ let todosQuizzesAtt = [];
 function carregarTelaLoading() {
     const telaLoading = document.querySelector("body");
     telaLoading.innerHTML = `
-    <div class="loading">
-        <img class="barra-loading" src="./images/loading.gif" alt="Carregando" />
-        <p>Carregando</p>
-    </div>`;
+        <div class="loading">
+            <img class="barra-loading" src="./images/loading.gif" alt="Carregando" />
+            <p>Carregando</p>
+        </div>`;
 }
 
 function exibirTela2() {
 
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
-            <div class="tela-2">
-                <div class="topo-quiz"><p>BuzzQuizz</p></div>
-                <div class="titulo-quiz-topo">
-                    <div class="degrade-img"></div>
-                    <img class="banner-quiz-unico" src="${quiz.image}" alt="Banner do Quiz" />
-                    <p class="titulo-quiz-unico">${quiz.title}</p>
-                </div>
-                <div class="conteiner-quizzes">
-                    ${imprimirQuizz()}
-                </div>
+        <div class="tela-2">
+            <div class="topo-quiz"><p>BuzzQuizz</p></div>
+            <div class="titulo-quiz-topo">
+                <div class="degrade-img"></div>
+                <img class="banner-quiz-unico" src="${quiz.image}" alt="Banner do Quiz" />
+                <p class="titulo-quiz-unico">${quiz.title}</p>
             </div>
-            `;
+            <div class="conteiner-quizzes">
+                ${imprimirQuizz()}
+            </div>
+        </div>
+        `;
 }
 
 function obterUnicoQuiz(elemento) {
@@ -64,7 +63,6 @@ function imprimirQuizz () {
 
         for(let c = 0; c < quiz.questions[i].answers.length; c++) {
             texto += `
-            
                 <button onclick="selecionarResposta(this), analizarResposta(this)" data-verifica="${quiz.questions[i].answers[c].isCorrectAnswer}">
                     <img src=${quiz.questions[i].answers[c].image} alt="Imagem do Quiz" />
                     <p>${quiz.questions[i].answers[c].text}</p>
@@ -80,7 +78,6 @@ function imprimirQuizz () {
         <div class="conteudo-final desativado"></div>
     `;
     return texto;
-    
 }
 
 function comparador() { 
@@ -101,9 +98,11 @@ function selecionarResposta(elemento) {
         conteudoQuizz[i].classList.add("opaco");
         conteudoQuizz[i].disabled = true;
     }
+
     elemento.classList.remove("opaco");
     elemento.querySelector("p").classList.add("resposta-correta");
     perguntas += 1;
+
     setTimeout(()=>{rolar(elemento)}, 2000); 
 }
 
@@ -116,18 +115,18 @@ function rolar(elemento) {
 }
 
 function analizarResposta(elemento) {
+
     if(elemento.dataset.verifica === "true") {
         acertos += 1;
     }
+
     if(perguntas === quiz.questions.length) {
         const botoes = document.querySelector(".tela-2");
         const final = document.querySelector(".conteudo-final");
         final.classList.remove("desativado");
         let comparacaoResposta = parseInt((Math.round((acertos / perguntas) * 100).toFixed(2)));
         for(let i = 0; i < quiz.levels.length; i ++) {
-    
             if(comparacaoResposta >= quiz.levels[i].minValue) {
-                
                 final.innerHTML = `
                     <div class="titulo-quiz-secundario quiz-resultado" style="background-color:${quiz.levels[i].color}">
                         <p>${comparacaoResposta}% ${quiz.levels[i].title}</p>
@@ -158,62 +157,61 @@ function reiniciarQuizz() {
 
 function voltarInicio() {
     document.querySelector(".tela-2").innerHTML = "";
-    carregarTelaLoading()
+    carregarTelaLoading();
     setTimeout(buscarTodosQuizzes, 2000);
 }
 
 function buscarTodosQuizzes(){
     const promessa = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes");
     promessa.then(carregarDados);
-    carregarTelaLoading()
+    carregarTelaLoading();
 }
 
 function carregarDados(dados){
     todosQuizzes = dados.data;
-    renderizarQuizzes()
+    renderizarQuizzes();
 }
 
 function buscarTodosQuizzesCriado(){
     const promessa = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes");
     promessa.then(carregarDadosCriado);
-    carregarTelaLoading()
+    carregarTelaLoading();
 }
 function carregarDadosCriado(dados){
     todosQuizzesAtt = dados.data;
-    renderizarQuizzCriado()
-    carregarTelaLoading()
+    renderizarQuizzCriado();
+    carregarTelaLoading();
 }
 
 function renderizarQuizzes(){
     let body = document.querySelector("body")
-    body.innerHTML = `<div class="topo"> BuzzQuizz</div>
-    <div class="seus-quizzes-nenhum">
-        
-    </div>
-        <div class="container-seus-quizzes desativado"> 
-            <div class ="cabecalho"><span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span></div>
-            <div class="seus-quizzes">
-                </div>
+    body.innerHTML = `
+        <div class="topo"> BuzzQuizz</div>
+        <div class="seus-quizzes-nenhum">
+            
+        </div>
+            <div class="container-seus-quizzes desativado"> 
+                <div class ="cabecalho"><span>Seus Quizzes</span> <span class="botao-criar-pequeno" onclick="criarQuizzInfo()">+</span></div>
+                <div class="seus-quizzes"></div>
             </div>
         </div>
-    </div>
-    <div class="container-todos-quizzes"> <span>Todos os Quizzes</span>
-        <div class="lista-quizzes">
+        <div class="container-todos-quizzes"> <span>Todos os Quizzes</span>
+            <div class="lista-quizzes"></div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="scripts.js"></script>`
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="scripts.js"></script>`
 
     const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
     let conteudo2= document.querySelector(".container-seus-quizzes")
     if (seusQuizzesLocal === null){
         conteudo1.innerHTML = `
-                            <div class="container-seus-quizzes-nenhum ">
-                                <span>Você não criou nenhum quizz ainda :(</span>
-                                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
-                            </div>
+            <div class="container-seus-quizzes-nenhum">
+                <span>Você não criou nenhum quizz ainda :(</span>
+                <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
+            </div>
         `
-    }else{
+    }
+    else{
         conteudo2.classList.remove("desativado")
         let conteudo3=document.querySelector(".seus-quizzes")
         let check= [];
@@ -221,23 +219,14 @@ function renderizarQuizzes(){
         for ( let i=0; i< seusQuizzesLocal.length;i++){
             check = todosQuizzes.filter(function(elemento){ return elemento.id==seusQuizzesLocal[i];})
             if (check.length > 0){
-            conteudo3.innerHTML += `
-                                    <div class="quizz" id="${check[0].id}" onclick="obterUnicoQuiz(this)" ><img src="${check[0].image}" alt="${check[0].title}">
-                                        <div class="degrade"></div>
-                                        <div class="titulo-quizz"> ${check[0].title} </div>
-                                    </div>
-            
-            `
+                conteudo3.innerHTML += `
+                    <div class="quizz" id="${check[0].id}" onclick="obterUnicoQuiz(this)" ><img src="${check[0].image}" alt="${check[0].title}">
+                        <div class="degrade"></div>
+                        <div class="titulo-quizz"> ${check[0].title} </div>
+                    </div>
+                    `
                 cont++;
-        } 
-
-     /*       conteudo3.innerHTML += `
-                                    <div class="quizz" id="${seusQuizzesLocal[i].id}" onclick="obterUnicoQuiz(this)" ><img src="${seusQuizzesLocal[i].image}" alt="${seusQuizzesLocal[i].title}">
-                                        <div class="degrade"></div>
-                                        <div class="titulo-quizz"> ${seusQuizzesLocal[i].title} </div>
-                                    </div>
-            
-            `*/
+            } 
         }
         if (cont == 0){
             conteudo2.classList.add("desativado")
@@ -255,11 +244,11 @@ function renderizarQuizzes(){
     
     for ( let i=0; i< todosQuizzes.length;i++){
         conteudo.innerHTML += `
-        <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image}>
-            <div class="degrade"></div>
-            <div class="titulo-quizz">${todosQuizzes[i].title} </div>
-        </div>
-        `
+            <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image}>
+                <div class="degrade"></div>
+                <div class="titulo-quizz">${todosQuizzes[i].title} </div>
+            </div>
+            `
     }
 }
 
@@ -291,42 +280,41 @@ function criarPerguntasQuizz(){
     let conteudo = document.querySelector("body")
     conteudo.innerHTML = `
         <div class="topo"> BuzzQuizz</div>
-        <div class="conteudo-perguntas-quizz"> <span><strong>Crie suas perguntas</strong></span>
-           
-        </div>
+        <div class="conteudo-perguntas-quizz"> <span><strong>Crie suas perguntas</strong></span></div>
         `
     conteudo = document.querySelector(".conteudo-perguntas-quizz")
     for (let i = 0; i < contPerguntas;i++){
-           conteudo.innerHTML+= `<div class="perguntas"> 
-           <span><strong>Pergunta ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarP(this)"></ion-icon></span>
-           <span><strong>Pergunta ${i+1} </strong> </span>
-           <input type="text" class ="texto-pergunta${i+1} desativado" placeholder = "Texto da pergunta">
-           <p class ="texto-pergunta${i+1}"></p>
-           <input type="text" class ="cor-fundo${i+1}" placeholder = "Cor de fundo da pergunta">
-           <p class ="cor-fundo${i+1}"></p>
-           <span><strong>Resposta Correta</strong></span>
-           <input type="text" class ="resposta-correta${i+1}" placeholder = "Resposta Correta">
-           <p class ="resposta-correta${i+1}"></p>
-           <input type="text" class ="imagem-resposta-correta${i+1}" placeholder = "URL da Imagem">
-           <p class ="imagem-resposta-correta${i+1}"></p>
-           <span><strong>Respostas Incorretas</strong></span>
-           <p class ="qtdRespostaIncorreta${i+1}"> </p>
-           <input type="text" class ="resposta-incorreta1${i+1}" placeholder = "Resposta Incorreta 1">
-           <p class ="resposta-incorreta1${i+1}"></p>
-           <input type="text" class ="imagem-resposta-incorreta1${i+1}" placeholder = "URL da Imagem">
-           <p class ="imagem-resposta-incorreta1${i+1}"></p>
-           <input type="text" class ="resposta-incorreta2${i+1}" placeholder = "Resposta Incorreta 2">
-           <p class ="resposta-incorreta2${i+1}"></p>
-           <input type="text" class ="imagem-resposta-incorreta2${i+1}" placeholder = "URL da Imagem">
-           <p class ="imagem-resposta-incorreta2${i+1}"></p>
-           <input type="text" class ="resposta-incorreta3${i+1}" placeholder = "Resposta Incorreta 3">
-           <p class ="resposta-incorreta3${i+1}"></p>
-           <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
-           <p class ="imagem-resposta-incorreta3${i+1}"></p>
-       </div>
+           conteudo.innerHTML+= `
+                <div class="perguntas"> 
+                    <span><strong>Pergunta ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarP(this)"></ion-icon></span>
+                    <span><strong>Pergunta ${i+1} </strong> </span>
+                    <input type="text" class ="texto-pergunta${i+1} desativado" placeholder = "Texto da pergunta">
+                    <p class ="texto-pergunta${i+1}"></p>
+                    <input type="text" class ="cor-fundo${i+1}" placeholder = "Cor de fundo da pergunta">
+                    <p class ="cor-fundo${i+1}"></p>
+                    <span><strong>Resposta Correta</strong></span>
+                    <input type="text" class ="resposta-correta${i+1}" placeholder = "Resposta Correta">
+                    <p class ="resposta-correta${i+1}"></p>
+                    <input type="text" class ="imagem-resposta-correta${i+1}" placeholder = "URL da Imagem">
+                    <p class ="imagem-resposta-correta${i+1}"></p>
+                    <span><strong>Respostas Incorretas</strong></span>
+                    <p class ="qtdRespostaIncorreta${i+1}"> </p>
+                    <input type="text" class ="resposta-incorreta1${i+1}" placeholder = "Resposta Incorreta 1">
+                    <p class ="resposta-incorreta1${i+1}"></p>
+                    <input type="text" class ="imagem-resposta-incorreta1${i+1}" placeholder = "URL da Imagem">
+                    <p class ="imagem-resposta-incorreta1${i+1}"></p>
+                    <input type="text" class ="resposta-incorreta2${i+1}" placeholder = "Resposta Incorreta 2">
+                    <p class ="resposta-incorreta2${i+1}"></p>
+                    <input type="text" class ="imagem-resposta-incorreta2${i+1}" placeholder = "URL da Imagem">
+                    <p class ="imagem-resposta-incorreta2${i+1}"></p>
+                    <input type="text" class ="resposta-incorreta3${i+1}" placeholder = "Resposta Incorreta 3">
+                    <p class ="resposta-incorreta3${i+1}"></p>
+                    <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
+                    <p class ="imagem-resposta-incorreta3${i+1}"></p>
+                </div>
             `
     }    
-    conteudo.innerHTML+= `<button class="criar-prosseguir-niveis" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
+    conteudo.innerHTML += `<button class="criar-prosseguir-niveis" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
 }
 
 function criarNiveisQuizz(){
@@ -348,27 +336,26 @@ function criarNiveisQuizz(){
     }
 
   let conteudo = document.querySelector("body")
-  conteudo.innerHTML = `<div class="topo"> BuzzQuizz</div>
-                        <div class="conteudo-niveis-quizz"> <span><strong>Agora decida os níveis</strong></span>
-                        </div
-  `
+  conteudo.innerHTML = `
+    <div class="topo"> BuzzQuizz</div>
+    <div class="conteudo-niveis-quizz"> <span><strong>Agora decida os níveis</strong></span></div>
+    `
     conteudo = document.querySelector(".conteudo-niveis-quizz")
   for(let i=0; i<contNiveis; i++){
     conteudo.innerHTML += `
-                    <div class="niveis">
-                        <span><strong>Nível ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarN(this)"></ion-icon></span>
-                        <span><strong>Nível ${i+1} </strong></span>
-                        <input type="text" class ="titulo-nivel${i+1}" placeholder = "Título do nível">
-                        <p class ="titulo-nivel${i+1}"></p>
-                        <input type="text" id="qtdAcertoMinimo" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
-                        <p class ="acerto-mínimo${i+1}"></p>
-                        <p class ="qtdAcertoMinimo"></p>
-                        <input type="text" class ="imagem-nivel${i+1}" placeholder = "URL da imagem do nível">
-                        <p class ="imagem-nivel${i+1}"></p>
-                        <input type="text" class ="descricao-nivel${i+1}" placeholder = "Descrição do nível">
-                        <p class ="descricao-nivel${i+1}"></p>
-                    </div>
-            
+        <div class="niveis">
+            <span><strong>Nível ${i+1} </strong> <ion-icon size ="large"name="create-outline" onclick="editarN(this)"></ion-icon></span>
+            <span><strong>Nível ${i+1} </strong></span>
+            <input type="text" class ="titulo-nivel${i+1}" placeholder = "Título do nível">
+            <p class ="titulo-nivel${i+1}"></p>
+            <input type="text" id="qtdAcertoMinimo" class ="acerto-mínimo${i+1}" placeholder = "% de acerto mínima">
+            <p class ="acerto-mínimo${i+1}"></p>
+            <p class ="qtdAcertoMinimo"></p>
+            <input type="text" class ="imagem-nivel${i+1}" placeholder = "URL da imagem do nível">
+            <p class ="imagem-nivel${i+1}"></p>
+            <input type="text" class ="descricao-nivel${i+1}" placeholder = "Descrição do nível">
+            <p class ="descricao-nivel${i+1}"></p>
+        </div>
     `
   }
   conteudo.innerHTML+= `<button class="criar" onclick = "validarNiveis()"> Finalizar Quizz`
@@ -421,16 +408,15 @@ function renderizarQuizzCriado(){
     if (checkCriado.length !==0) {
     let conteudo = document.querySelector("body")
     conteudo.innerHTML =`
-            <div class="topo"> BuzzQuizz</div>
-            <div class="conteudo-quizz-criado"> <span><strong>Seu quizz está pronto</strong></span>
-                <div class="quizz-criado" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"><img src="${checkCriado[0].image}" alt="">
-                        <div class="degrade-criado"></div>
-                        <div class="titulo-quizz"> ${checkCriado[0].title} </div>
-                    </div>
-                </div>
-                <button class="criar-acessar-quizz" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
-                <button class="voltar-home" onclick="buscarTodosQuizzes()">Voltar pra home</button>
+        <div class="topo"> BuzzQuizz</div>
+        <div class="conteudo-quizz-criado"> <span><strong>Seu quizz está pronto</strong></span>
+            <div class="quizz-criado" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"><img src="${checkCriado[0].image}" alt="Seu Quizz">
+                <div class="degrade-criado"></div>
+                <div class="titulo-quizz"> ${checkCriado[0].title} </div>
             </div>
+            <button class="criar-acessar-quizz" id="${checkCriado[0].id}" onclick = "obterUnicoQuiz(this)"> Acessar Quizz</button>
+            <button class="voltar-home" onclick="buscarTodosQuizzes()">Voltar pra home</button>
+        </div>
     `}
 }
 
