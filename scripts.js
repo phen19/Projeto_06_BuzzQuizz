@@ -182,7 +182,6 @@ function buscarTodosQuizzesCriado(){
 function carregarDadosCriado(dados){
     todosQuizzesAtt = dados.data;
     renderizarQuizzCriado();
-    carregarTelaLoading();
 }
 
 function renderizarQuizzes(){
@@ -378,7 +377,7 @@ function finalizarQuizz(){
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes",seusQuizzes);
     requisicao.then(criarQuizz)
     requisicao.catch()
-    //carregarTelaLoading()
+    carregarTelaLoading()
   
 }
 
