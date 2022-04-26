@@ -202,19 +202,19 @@ function renderizarQuizzes(){
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="scripts.js"></script>`;
 
-    const conteudo1 = document.querySelector(".seus-quizzes-nenhum")
-    let conteudo2= document.querySelector(".container-seus-quizzes")
+    const conteudo1 = document.querySelector(".seus-quizzes-nenhum");
+    let conteudo2= document.querySelector(".container-seus-quizzes");
     if (seusQuizzesLocal === null){
         conteudo1.innerHTML = `
             <div class="container-seus-quizzes-nenhum">
                 <span>Você não criou nenhum quizz ainda :(</span>
                 <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
             </div>
-        `
+        `;
     }
     else{
-        conteudo2.classList.remove("desativado")
-        let conteudo3=document.querySelector(".seus-quizzes")
+        conteudo2.classList.remove("desativado");
+        let conteudo3=document.querySelector(".seus-quizzes");
         let check= [];
         let cont = 0;
         for ( let i=0; i< seusQuizzesLocal.length;i++){
@@ -224,8 +224,7 @@ function renderizarQuizzes(){
                     <div class="quizz" id="${check[0].id}" onclick="obterUnicoQuiz(this)" ><img src="${check[0].image}" alt="${check[0].title}">
                         <div class="degrade"></div>
                         <div class="titulo-quizz"> ${check[0].title} </div>
-                    </div>
-                    `
+                    </div>`;
                 cont++;
             } 
         }
@@ -235,8 +234,7 @@ function renderizarQuizzes(){
             <div class="container-seus-quizzes-nenhum ">
                 <span>Você não criou nenhum quizz ainda :(</span>
                 <div class="botao-criar-grande" onclick="criarQuizzInfo()">Criar Quizz</div>
-            </div>
-`
+            </div>`;
         }
     }
 
@@ -248,13 +246,12 @@ function renderizarQuizzes(){
             <div class="quizz" id="${todosQuizzes[i].id}" onclick="obterUnicoQuiz(this)"><img src=${todosQuizzes[i].image}>
                 <div class="degrade"></div>
                 <div class="titulo-quizz">${todosQuizzes[i].title} </div>
-            </div>
-            `
+            </div>`;
     }
 }
 
 function criarQuizzInfo(){
-    const conteudo = document.querySelector("body")
+    const conteudo = document.querySelector("body");
     conteudo.innerHTML = `
         <div class="topo"> BuzzQuizz</div>
         <div class="conteudo-info-basicas"> <span><strong>Comece pelo começo</strong></span>
@@ -270,19 +267,19 @@ function criarQuizzInfo(){
             </div>
             <button class="criar" onclick = "validarInfos()"> Prosseguir pra criar perguntas
         </div>
-    `
+    `;
 }
 
 function criarPerguntasQuizz(){
     seusQuizzes.title = document.querySelector(".titulo").value;
     seusQuizzes.image = document.querySelector(".url-imagem").value;
-    contPerguntas = document.querySelector(".qtd-perguntas").value
-    contNiveis = document.querySelector(".qtd-niveis").value
-    let conteudo = document.querySelector("body")
+    contPerguntas = document.querySelector(".qtd-perguntas").value;
+    contNiveis = document.querySelector(".qtd-niveis").value;
+    let conteudo = document.querySelector("body");
     conteudo.innerHTML = `
         <div class="topo"> BuzzQuizz</div>
         <div class="conteudo-perguntas-quizz"> <span><strong>Crie suas perguntas</strong></span></div>
-        `
+        `;
     conteudo = document.querySelector(".conteudo-perguntas-quizz")
     for (let i = 0; i < contPerguntas;i++){
            conteudo.innerHTML+= `
@@ -313,9 +310,9 @@ function criarPerguntasQuizz(){
                     <input type="text" class ="imagem-resposta-incorreta3${i+1}" placeholder = "URL da Imagem">
                     <p class ="imagem-resposta-incorreta3${i+1}"></p>
                 </div>
-            `
+            `;
     }    
-    conteudo.innerHTML += `<button class="criar-prosseguir-niveis" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`
+    conteudo.innerHTML += `<button class="criar-prosseguir-niveis" onclick = "validarPerguntas()"> Prosseguir pra criar níveis`;
 }
 
 function criarNiveisQuizz(){
@@ -424,46 +421,46 @@ function renderizarQuizzCriado(){
 function validarInfos(){
     document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
     document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
-    let titulo = document.querySelector(".titulo").value
-    let qtdperguntas = document.querySelector(".qtd-perguntas").value
-    let qtdniveis = document.querySelector(".qtd-niveis").value
-    let url = document.querySelector(".url-imagem").value
-    let erros =[]
+    let titulo = document.querySelector(".titulo").value;
+    let qtdperguntas = document.querySelector(".qtd-perguntas").value;
+    let qtdniveis = document.querySelector(".qtd-niveis").value;
+    let url = document.querySelector(".url-imagem").value;
+    let erros =[];
     if(titulo.length < 20){
         erros.push({ erro: `titulo`,
-                mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`})
+                mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`});
     }if (titulo.length > 65){
         erros.push({ erro: `titulo`,
-                mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`})
+                mensagem:`Titulo deve conter entre 20 e 65 caracteres\n`});
     }if(url.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null) {
         erros.push({ erro: `url-imagem`,
-                mensagem:`Formato de URL inválida\n`})
+                mensagem:`Formato de URL inválida\n`});
     }if(qtdperguntas < 3){
         erros.push({ erro: `qtd-perguntas`,
-                mensagem: `Quantidade mínima de perguntas é 3\n`})
+                mensagem: `Quantidade mínima de perguntas é 3\n`});
     }if(qtdniveis < 2){
         erros.push({ erro: `qtd-niveis`,
-                mensagem: `Quantidade mínima de níveis é 2\n`})
+                mensagem: `Quantidade mínima de níveis é 2\n`});
     }if(erros.length > 0){
         for (let i=0; i<erros.length; i++){
-            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
-            document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
+            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`;
+            document.querySelector(`input.${erros[i].erro}`).classList.add("erro");
         }
-        return false
+        return false;
     }else{
-    criarPerguntasQuizz()
+    criarPerguntasQuizz();
     }
 }
 
 function validarPerguntas(){
-    let erros = []
-    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
-    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
+    let erros = [];
+    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""});
+    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")});
     for (let i=0; i<contPerguntas;i++){
         let texto = document.querySelector(`.texto-pergunta${i+1}`).value;
-        let respostaCorreta= document.querySelector(`.resposta-correta${i+1}`).value
-        let cor = document.querySelector(`.cor-fundo${i+1}`).value
-        let urlImagemCorreta = document.querySelector(`.imagem-resposta-correta${i+1}`).value
+        let respostaCorreta= document.querySelector(`.resposta-correta${i+1}`).value;
+        let cor = document.querySelector(`.cor-fundo${i+1}`).value;
+        let urlImagemCorreta = document.querySelector(`.imagem-resposta-correta${i+1}`).value;
         let qtdRespostasIncorretas = 0;
         let respostaIncorreta1 = document.querySelector(`.resposta-incorreta1${i+1}`).value;
         let respostaIncorreta2 = document.querySelector(`.resposta-incorreta2${i+1}`).value;
@@ -471,97 +468,97 @@ function validarPerguntas(){
 
         if(texto.length<20){
             erros.push({ erro: `texto-pergunta${i+1}`,
-                mensagem:`Texto da pergunta ${i+1} deve ter no mínimo 20 caracteres\n`})
+                mensagem:`Texto da pergunta ${i+1} deve ter no mínimo 20 caracteres\n`});
         }if(/^#[0-9A-F]{6}$/i.test(cor)=== false) {
             erros.push({ erro: `cor-fundo${i+1}`,
-                mensagem:`Cor de fundo da pergunta${i+1} deve ser hexadecimal\n`})
+                mensagem:`Cor de fundo da pergunta${i+1} deve ser hexadecimal\n`});
         }if (respostaCorreta === ""){
             erros.push({ erro: `resposta-correta${i+1}`,
                 mensagem:`Texto da resposta correta da pergunta ${i+1} não pode ser vazio\n`})
         }if (urlImagemCorreta.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null){
             erros.push({ erro: `imagem-resposta-correta${i+1}`,
-                mensagem:`Formato da URL inválida para resposta ${i+1}.\n`})
+                mensagem:`Formato da URL inválida para resposta ${i+1}.\n`});
         }if(respostaIncorreta1 !== ""){
-            qtdRespostasIncorretas++
+            qtdRespostasIncorretas++;
         }if(respostaIncorreta2 !== ""){
-            qtdRespostasIncorretas++
+            qtdRespostasIncorretas++;
         }if(respostaIncorreta3 !== ""){
-            qtdRespostasIncorretas++
+            qtdRespostasIncorretas++;
         }if(qtdRespostasIncorretas == 0){
-            document.querySelector(`.qtdRespostaIncorreta${i+1}`).innerHTML = "Necessário ter pelo menos uma resposta incorreta preenchida"
+            document.querySelector(`.qtdRespostaIncorreta${i+1}`).innerHTML = "Necessário ter pelo menos uma resposta incorreta preenchida";
         }if(qtdRespostasIncorretas > 0){
            for (let j = 0; j<qtdRespostasIncorretas;j++){
-            let respostaIncorreta = document.querySelector(`.resposta-incorreta${j+1}${i+1}`).value
-            let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value
+            let respostaIncorreta = document.querySelector(`.resposta-incorreta${j+1}${i+1}`).value;
+            let urlImagemIncorreta = document.querySelector(`.imagem-resposta-incorreta${j+1}${i+1}`).value;
 
             if(respostaIncorreta === ""){
                 erros.push({ erro: `resposta-incorreta${j+1}${i+1}`,
-                mensagem:`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}\n`})
+                mensagem:`Inserir texto na resposta incorreta ${j+1} da pergunta ${i+1}\n`});
                 
             }if (urlImagemIncorreta.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null){
                 erros.push({ erro: `imagem-resposta-incorreta${j+1}${i+1}`,
-                mensagem:`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}.\n`})
+                mensagem:`Formato da URL inválida para resposta incorreta ${j+1} da pergunta ${i+1}.\n`});
             }
             }
         }
     }
     if(erros.length > 0){
         for (let i=0; i<erros.length; i++){
-            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
-            document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
+            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`;
+            document.querySelector(`input.${erros[i].erro}`).classList.add("erro");
         }
-        return false
+        return false;
     }else{
-        criarNiveisQuizz()
+        criarNiveisQuizz();
     }    
 }
-let erros = []
+let erros = [];
 let acertosMinimos = 0;
 function validarNiveis(){
-    erros = []
+    erros = [];
     acertosMinimos = 0;
-    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""})
-    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")})
-    let porcentagem = []
+    document.querySelectorAll("p").forEach((elemento)=>{elemento.innerHTML = ""});
+    document.querySelectorAll("input").forEach((elemento)=>{elemento.classList.remove("erro")});
+    let porcentagem = [];
     for (let i=0; i<contNiveis;i++){
-        let titulo = document.querySelector(`.titulo-nivel${i+1}`).value
-        let porc = document.querySelector(`.acerto-mínimo${i+1}`).value
-        let url = document.querySelector(`.imagem-nivel${i+1}`).value
-        let descricao = document.querySelector(`.descricao-nivel${i+1}`).value
+        let titulo = document.querySelector(`.titulo-nivel${i+1}`).value;
+        let porc = document.querySelector(`.acerto-mínimo${i+1}`).value;
+        let url = document.querySelector(`.imagem-nivel${i+1}`).value;
+        let descricao = document.querySelector(`.descricao-nivel${i+1}`).value;
 
         if(titulo.length < 10){
             erros.push({ erro: `titulo-nivel${i+1}`,
-                mensagem:`Título do nível ${i+1} deve conter no mínimo 10 caracteres\n`})
+                mensagem:`Título do nível ${i+1} deve conter no mínimo 10 caracteres\n`});
         }
 
         if(porc.length == 0){
             erros.push({ erro: `acerto-mínimo${i+1}`,
-                mensagem:`Acerto mínimo não pode ser vazio\n`})
+                mensagem:`Acerto mínimo não pode ser vazio\n`});
         }
         
         if(/^(0|[1-9][0-9]?|100)$/.test(porc) === false){
             erros.push({ erro: `acerto-mínimo${i+1}`,
-                mensagem:`% de acerto mínima deve ser numero entre 0 e 100\n`})
+                mensagem:`% de acerto mínima deve ser numero entre 0 e 100\n`});
         }
 
         if (url.match(/^http.*\.(jpeg|jpg|gif|png|apng|avif|jfif|pjpeg|pjp|svg|webp)/) === null){
             erros.push({ erro: `imagem-nivel${i+1}`,
-                mensagem:`Formato da URL inválida para nivel ${i+1}.\n`})
+                mensagem:`Formato da URL inválida para nivel ${i+1}.\n`});
         }
 
         if(descricao.length < 30){
             erros.push({ erro: `descricao-nivel${i+1}`,
-                mensagem:`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres\n`})
+                mensagem:`Descrição do nível ${i+1} deve conter no mínimo 30 caracteres\n`});
         }
 
         if (porc == 0){
-            acertosMinimos++
+            acertosMinimos++;
         }
 
         for (let j = 0 ; j < porcentagem.length ; j ++) {
             if (porcentagem[j] === porc && porcentagem !== []) {
                 document.querySelector(`p.acerto-mínimo${i+1}`).innerHTML = "Essa % de acerto mínima já foi atríbuida para outro nível";
-                document.querySelector(`input.acerto-mínimo${i+1}`).classList.add("erro")
+                document.querySelector(`input.acerto-mínimo${i+1}`).classList.add("erro");
             }
         }
         porcentagem.push(porc);
@@ -569,24 +566,24 @@ function validarNiveis(){
     }
 
     if (acertosMinimos === 0){
-        document.querySelectorAll(`.qtdAcertoMinimo`).forEach((elemento)=>{elemento.innerHTML = "Necessário pelo menos um nível ter % mínima igual a 0"})
-        document.querySelectorAll(`[id = qtdAcertoMinimo]`).forEach((elemento)=>{elemento.classList.add("erro")})
+        document.querySelectorAll(`.qtdAcertoMinimo`).forEach((elemento)=>{elemento.innerHTML = "Necessário pelo menos um nível ter % mínima igual a 0"});
+        document.querySelectorAll(`[id = qtdAcertoMinimo]`).forEach((elemento)=>{elemento.classList.add("erro")});
         
     }
 
     if(erros.length>0){
         for (let i=0; i<erros.length; i++){
-            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`
-            document.querySelector(`input.${erros[i].erro}`).classList.add("erro")
+            document.querySelector(`p.${erros[i].erro}`).innerHTML = `${erros[i].mensagem}`;
+            document.querySelector(`input.${erros[i].erro}`).classList.add("erro");
         }
-        return false
+        return false;
     }else{
-    finalizarQuizz()
+    finalizarQuizz();
     }
 }
 
 function editarP(perguntaClicada){
-    const perguntaSelecionada = document.querySelector(".perguntas.mostrar")
+    const perguntaSelecionada = document.querySelector(".perguntas.mostrar");
     if (perguntaSelecionada !== null) {
         perguntaSelecionada.classList.remove("mostrar");
     }
