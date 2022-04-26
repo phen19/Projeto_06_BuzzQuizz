@@ -26,7 +26,7 @@ function exibirTela2() {
     const tela2 = document.querySelector("body")
     tela2.innerHTML = `
             <div class="tela-2">
-                <div class="topo-quiz"><p>BuzzQuiz</p></div>
+                <div class="topo-quiz"><p>BuzzQuizz</p></div>
                 <div class="titulo-quiz-topo">
                     <div class="degrade-img"></div>
                     <img class="banner-quiz-unico" src="${quiz.image}" />
