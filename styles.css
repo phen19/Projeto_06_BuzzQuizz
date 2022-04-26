@@ -173,7 +173,7 @@ body{
 }
 .quiz-imagens > p {
     width: 324px;
-    height: 174px;
+    height: 100%;
     padding: 20px;
     font-family: 'Roboto';
     font-style: normal;
@@ -692,10 +692,12 @@ p{
     .quiz-imagens > button {
         width: 164px;
         height: 100%;
+       
     }
     .quiz-imagens > button > img {
         width: 164px;
         height: 114px;
+        
     }
     .quiz-imagens > button > p {
         width: 164px;
@@ -713,8 +715,11 @@ p{
         height: 255px;
     }
     .parte-final > p {
+        width: 340px;
         font-size: 17px;
         line-height: 20px;
+        padding: 0;
+        
     }
     .conteudo-final {
         height: 100%;
